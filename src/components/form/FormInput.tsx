@@ -29,8 +29,3 @@ const FormInput: React.FC<FormInputProps> = ({ label, labelSecondary }) => {
 };
 
 export default FormInput;
-
-FormInput.propTypes = {
-  label: PropTypes.string,
-  labelSecondary: PropTypes.string,
-};

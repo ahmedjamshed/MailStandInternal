@@ -1,4 +1,4 @@
-import { Button, Image, Pane, Text, TextInput } from "evergreen-ui";
+import { Button, Image, majorScale, Pane, Text, TextInput } from "evergreen-ui";
 import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -25,20 +25,20 @@ const LoginPage: NextPage = () => {
         </p>
         <Pane
           display="flex"
-          border="muted"
+          border="default"
           //   width={365}
-          className="flex-col px-10 py-10 sm:w-full md:w-96"
+          className="flex-col px-10 py-10 sm:w-full md:w-96 bg-white"
           {...undefined}
         >
-          <FormInput label="Email" />
-          <FormInput label="Password" labelSecondary="Forgot Password" />
+          <FormInput label="Email" labelSecondary={""} />
+          <FormInput label="Password" labelSecondary="Forgot Password?" />
           <FormButton text={"Sign in"} />
         </Pane>
       </Pane>
       <Pane
         display="flex"
-        border="muted"
-        className="flex-row justify-center px-10 py-10 sm:w-full md:w-96 mt-6"
+        border="default"
+        className="flex-row justify-center px-5 py-5 sm:w-full md:w-96 mt-6 bg-white border-black"
         {...undefined}
       >
         <p className="text-sm font-normal min-w-full text-center text-N-800">
