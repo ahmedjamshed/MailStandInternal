@@ -20,7 +20,7 @@ const LoginPage: NextPage = () => {
         {...undefined}
       >
         <Logo />
-        <p className="mt-5 mb-5 text-xl font-semibold text-N-900">
+        <p className="mt-5 mb-5 text-base font-semibold text-N-900">
           Login to Mailstand
         </p>
         <Pane

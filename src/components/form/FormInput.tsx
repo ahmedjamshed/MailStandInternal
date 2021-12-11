@@ -11,7 +11,7 @@ const FormInput: React.FC<FormInputProps> = ({ label, labelSecondary }) => {
     <div className="my-2">
       {label && (
         <div className="flex flex-row justify-between items-center align-middle">
-          <div className="text-lg font-medium text-N-800">{label}</div>
+          <div className="text-sm font-medium text-N-800">{label}</div>
           {labelSecondary && (
             <div className="text-xs font-normal align-middle cursor-pointer text-B-500">
               {labelSecondary}
