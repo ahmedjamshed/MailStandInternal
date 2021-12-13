@@ -1,8 +1,7 @@
-import { Button, Image, majorScale, Pane, Text, TextInput } from "evergreen-ui";
 import React from "react";
+import { Image, Pane } from "evergreen-ui";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Logo from "../resources/logo";
 import FormInput from "../components/form/FormInput";
 import FormButton from "../components/form/FormButton";
 import Container from "../components/layout/Container";
@@ -23,7 +22,8 @@ const LoginPage: NextPage = () => {
         className="mt-28 flex-col sm:p-1 md:p-0"
         {...undefined}
       >
-        <Logo />
+        <Image src="/images/logo_mailstand.svg" alt="Mailstand Logo" />
+
         <p className="mt-5 mb-5 text-H_500 font-semibold text-N-900">
           Login to Mailstand
         </p>
@@ -36,7 +36,7 @@ const LoginPage: NextPage = () => {
         >
           <FormInput label="Email" labelSecondary={""} />
           <FormInput label="Password" labelSecondary="Forgot Password?" />
-          <FormButton text={"Sign in"} />
+          <FormButton text={"Sign in"} iconBefore={undefined} />
         </Pane>
       </Pane>
       <Pane

@@ -4,13 +4,17 @@ import pallete from "../../config/pallete";
 
 interface FormInputProps {
   text: string;
+  iconBefore: any;
 }
 
-const FormButton: React.FC<FormInputProps> = ({ text, ...rest }) => {
-
+const FormButton: React.FC<FormInputProps> = ({
+  text,
+  iconBefore,
+  ...rest
+}) => {
   return (
-    
     <Button
+      iconBefore={iconBefore}
       backgroundColor={pallete.neutral}
       appearance="superdanger"
       color={"white"}

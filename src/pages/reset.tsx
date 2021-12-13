@@ -1,5 +1,5 @@
-import { Pane, Image } from "evergreen-ui";
 import React from "react";
+import { Pane, Image } from "evergreen-ui";
 import type { NextPage } from "next";
 import Head from "next/head";
 import FormInput from "../components/form/FormInput";
@@ -10,7 +10,7 @@ const ForgotPasswordPage: NextPage = () => {
   return (
     <Container>
       <Head>
-        <title>forgot password</title>
+        <title>reset password</title>
       </Head>
       <Pane
         display="flex"
@@ -22,7 +22,7 @@ const ForgotPasswordPage: NextPage = () => {
         <Image src="/images/logo_mailstand.svg" alt="Mailstand Logo" />
 
         <p className="mt-5 mb-5 text-H_500 font-semibold text-N-900">
-          Forgot Your Password?
+          Reset Password
         </p>
         <Pane
           display="flex"
@@ -31,8 +31,10 @@ const ForgotPasswordPage: NextPage = () => {
           className="flex-col px-10 py-10 sm:w-full md:w-96 bg-white"
           {...undefined}
         >
-          <FormInput label="Email" labelSecondary={""} />
-          <FormButton text={"Send Reset Passcode"} iconBefore={undefined} />
+          <FormInput label="New Password" labelSecondary={""} />
+          <FormInput label="Confirm Password" labelSecondary={""} />
+
+          <FormButton iconBefore={undefined} text={"Reset Password"} />
         </Pane>
       </Pane>
     </Container>

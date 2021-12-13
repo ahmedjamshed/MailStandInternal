@@ -1,8 +1,7 @@
-import { Button, Image, majorScale, Pane, Text, TextInput } from "evergreen-ui";
+import { Image, Pane } from "evergreen-ui";
 import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Logo from "../resources/logo";
 import FormInput from "../components/form/FormInput";
 import FormButton from "../components/form/FormButton";
 import Container from "../components/layout/Container";
@@ -19,8 +18,9 @@ const SignupPage: NextPage = () => {
       <Head>
         <title>signup</title>
       </Head>
-      <div className="mt-28  flex flex-col justify-center items-center  sm:p-1 md:p-0 sm:w-full md:w-128 lg:w-128">
-        <Logo />
+      <div className="mt-28  flex flex-col justify-center items-center  sm:p-1 md:p-0  sm:w-full md:w-128 lg:w-128">
+        <Image src="/images/logo_mailstand.svg" alt="Mailstand Logo" />
+
         <Pane
           display="flex"
           border="default"
@@ -63,7 +63,7 @@ const SignupPage: NextPage = () => {
             <FormCheckBox label="Yes" checked={true} />
           </Pane>
 
-          <FormButton text={"Sign in"} />
+          <FormButton text={"Sign in"} iconBefore={undefined} />
           <div className="flex flex-row flex-wrap justify-center align-middle items-center">
             <AppParagraph
               paragraphType={Paragraph.P100}

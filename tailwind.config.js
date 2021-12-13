@@ -42,6 +42,9 @@ module.exports = {
         H_500: ["1rem", "1.5rem"],
         H_700: ["1.25rem", "1.5rem"],
       },
+      screens: {
+        xs: "475px",
+      },
     },
     container: {
       center: true,
