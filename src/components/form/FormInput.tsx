@@ -3,12 +3,12 @@ import { TextInput } from "evergreen-ui";
 import React from "react";
 interface FormInputProps {
   label: string;
-  labelSecondary: string;
+  labelSecondary: string | null;
 }
 
 const FormInput: React.FC<FormInputProps> = ({ label, labelSecondary }) => {
   return (
-    <div className="my-2">
+    <div className="my-1">
       {label && (
         <div className="flex flex-row justify-between items-center align-middle">
           <div className="text-sm font-medium text-N-800">{label}</div>
@@ -20,9 +20,10 @@ const FormInput: React.FC<FormInputProps> = ({ label, labelSecondary }) => {
         </div>
       )}
       <TextInput
-        className="min-w-full my-2 h-8"
-        {...undefined}
         backgroundColor="#FAFBFC"
+        className="my-2 h-8"
+        style={{ width: "100%" }}
+        {...undefined}
       />
     </div>
   );

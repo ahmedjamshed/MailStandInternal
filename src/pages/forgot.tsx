@@ -1,4 +1,4 @@
-import { Button, Image, majorScale, Pane, Text, TextInput } from "evergreen-ui";
+import { Pane } from "evergreen-ui";
 import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -7,11 +7,11 @@ import FormInput from "../components/form/FormInput";
 import FormButton from "../components/form/FormButton";
 import Container from "../components/layout/Container";
 
-const LoginPage: NextPage = () => {
+const ForgotPasswordPage: NextPage = () => {
   return (
     <Container>
       <Head>
-        <title>login</title>
+        <title>forgot password</title>
       </Head>
       <Pane
         display="flex"
@@ -22,7 +22,7 @@ const LoginPage: NextPage = () => {
       >
         <Logo />
         <p className="mt-5 mb-5 text-base font-semibold text-N-900">
-          Login to Mailstand
+          Forgot Your Password?
         </p>
         <Pane
           display="flex"
@@ -32,23 +32,11 @@ const LoginPage: NextPage = () => {
           {...undefined}
         >
           <FormInput label="Email" labelSecondary={""} />
-          <FormInput label="Password" labelSecondary="Forgot Password?" />
-          <FormButton text={"Sign in"} />
+          <FormButton text={"Send Reset Passcode"} />
         </Pane>
-      </Pane>
-      <Pane
-        display="flex"
-        border="default"
-        className="flex-row justify-center px-5 py-5 sm:w-full md:w-96 mt-6 bg-white border-black"
-        {...undefined}
-      >
-        <p className="text-sm font-normal min-w-full text-center text-N-800">
-          Don’t have an account yet?
-          <span className="ml-1 text-B-500 cursor-pointer">Sign up free.</span>
-        </p>
       </Pane>
     </Container>
   );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;
