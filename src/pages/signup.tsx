@@ -1,4 +1,4 @@
-import { Image, Pane } from "evergreen-ui";
+import { Image, Pane, useTheme, Text } from "evergreen-ui";
 import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -11,6 +11,7 @@ import AppHeading from "../components/Typography/AppHeading";
 import { Headline, Paragraph } from "../utils/types";
 import AppParagraph from "../components/Typography/AppParagraph";
 import Link from "next/link";
+import pallete from "../config/pallete";
 
 const SignupPage: NextPage = () => {
   return (
@@ -29,12 +30,12 @@ const SignupPage: NextPage = () => {
           {...undefined}
         >
           <div className="mt-2 mb-2">
-            <p className="text-H_700  font-semibold text-N-900">Signup</p>
-            <div className="flex flex-row flex-wrap">
+            <p className="text-H_700   font-semibold text-N-900">Signup</p>
+            <div className="flex flex-row flex-wrap pt-2  align-middle items-center">
               <AppParagraph
                 paragraphType={Paragraph.P200}
                 text="Already have an account?"
-                rest={["text-N-800"]}
+                rest={["text-textGrey"]}
               />
               <Link href="/login">
                 <a className="ml-0 md:ml-1  text-sm text-B-500 cursor-pointer">
@@ -56,7 +57,7 @@ const SignupPage: NextPage = () => {
               text="Are you an agency and want to turn on agency mode?"
               rest={["text-N-800"]}
             />
-            <BsInfoCircleFill size={20} className="ml-1 text-N-900" />
+            <BsInfoCircleFill size={16} className="ml-1 text-N-900" />
           </div>
           <Pane className="flex flex-row space-x-5">
             <FormCheckBox label="No" checked={false} />

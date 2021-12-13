@@ -32,9 +32,11 @@ module.exports = {
         R: {
           400: "#D14343",
         },
+        textGrey: "#5A5F68",
       },
       width: {
         128: "32rem",
+        146: "35.625rem",
       },
       fontSize: {
         tiny: ["10px", "16px"],

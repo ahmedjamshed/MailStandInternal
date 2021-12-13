@@ -32,11 +32,11 @@ const IndexPage: NextPage = () => {
           <meta name="description" content="" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div className="mt-28  flex flex-col justify-center items-center  sm:p-1 md:p-0  sm:w-full md:w-128 lg:w-128">
+        <div className="mt-28  flex flex-col justify-center items-center  sm:p-1 md:p-0  sm:w-full md:w-146 lg:w-146">
           <Image src="/images/logo_mailstand.svg" alt="Mailstand Logo" />
           <Pane
             display="flex"
-            className="flex-col justify-center items-center mt-8 mb-5 px-10 py-5 w-full"
+            className="flex-col justify-center items-center mt-8 mb-5  py-5 w-full"
             {...undefined}
           >
             <Image src="/images/workspace_banner.svg" alt="Workspaces Banner" />
@@ -50,7 +50,7 @@ const IndexPage: NextPage = () => {
                 text="Workspaces are areas that separate your clients. All cold email
               campaigns, contacts and campaign settings are separated and never
               overlap between clients."
-                rest={["text-center font-normal text-N-800 mt-4"]}
+                rest={["text-center font-normal text-textGrey mt-4"]}
                 paragraphType={Paragraph.P200}
               />
             </Pane>
