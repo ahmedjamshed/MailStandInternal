@@ -51,7 +51,7 @@ const SignupPage: NextPage = () => {
           <FormInput label="Company name" labelSecondary={null} />
           <FormInput label="Email" labelSecondary={null} />
           <FormInput label="Create password" labelSecondary={null} />
-          <div className="flex flex-row flex-wrap">
+          <div className="flex flex-row flex-wrap items-center">
             <AppHeading
               headingType={Headline.H400}
               text="Are you an agency and want to turn on agency mode?"
