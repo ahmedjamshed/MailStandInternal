@@ -30,7 +30,7 @@ const SignupPage: NextPage = () => {
           {...undefined}
         >
           <div className="mt-2 mb-2">
-            <p className="text-H_700   font-semibold text-N-900">Signup</p>
+            <p className="text-H_700 font-semibold text-N-900">Sign up</p>
             <div className="flex flex-row flex-wrap pt-2  align-middle items-center">
               <AppParagraph
                 paragraphType={Paragraph.P200}
@@ -45,12 +45,12 @@ const SignupPage: NextPage = () => {
             </div>
           </div>
           <div className="sm:grid sm:grid-cols-2 sm:gap-4">
-            <FormInput label="First Name" labelSecondary={null} />
-            <FormInput label="Last Name" labelSecondary={null} />
+            <FormInput label="First name" labelSecondary={null} />
+            <FormInput label="Last name" labelSecondary={null} />
           </div>
-          <FormInput label="Company Name" labelSecondary={null} />
+          <FormInput label="Company name" labelSecondary={null} />
           <FormInput label="Email" labelSecondary={null} />
-          <FormInput label="Create Passowrd" labelSecondary={null} />
+          <FormInput label="Create password" labelSecondary={null} />
           <div className="flex flex-row flex-wrap">
             <AppHeading
               headingType={Headline.H400}
@@ -69,7 +69,7 @@ const SignupPage: NextPage = () => {
             <AppParagraph
               paragraphType={Paragraph.P100}
               text="By clicking sign up, you agree to our"
-              rest={["text-center my-4"]}
+              rest={["text-center my-4 text-textGrey"]}
             />
             <Link href="">
               <a className="ml-1  text-xs text-B-500 cursor-pointer">
@@ -79,7 +79,7 @@ const SignupPage: NextPage = () => {
             <AppParagraph
               paragraphType={Paragraph.P100}
               text="and"
-              rest={["ml-1"]}
+              rest={["ml-1 text-textGrey"]}
             />
             <Link href="">
               <a className="ml-1  text-xs text-B-500 cursor-pointer">
