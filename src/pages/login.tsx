@@ -6,6 +6,9 @@ import Logo from "../resources/logo";
 import FormInput from "../components/form/FormInput";
 import FormButton from "../components/form/FormButton";
 import Container from "../components/layout/Container";
+import { Paragraph } from "../utils/types";
+import AppParagraph from "../components/Typography/AppParagraph";
+import Link from "next/link";
 
 const LoginPage: NextPage = () => {
   return (
@@ -21,7 +24,7 @@ const LoginPage: NextPage = () => {
         {...undefined}
       >
         <Logo />
-        <p className="mt-5 mb-5 text-base font-semibold text-N-900">
+        <p className="mt-5 mb-5 text-H_500 font-semibold text-N-900">
           Login to Mailstand
         </p>
         <Pane
@@ -42,10 +45,18 @@ const LoginPage: NextPage = () => {
         className="flex-row justify-center px-5 py-5 sm:w-full md:w-96 mt-6 bg-white border-black"
         {...undefined}
       >
-        <p className="text-sm font-normal min-w-full text-center text-N-800">
-          Don’t have an account yet?
-          <span className="ml-1 text-B-500 cursor-pointer">Sign up free.</span>
-        </p>
+        <div className="flex flex-row flex-wrap justify-center">
+          <AppParagraph
+            paragraphType={Paragraph.P200}
+            text="Already have an account?"
+            rest={["text-N-800 text-center"]}
+          />
+          <Link href="/signup">
+            <a className="ml-0 md:ml-1  text-sm text-B-500 cursor-pointer">
+              Sign in.
+            </a>
+          </Link>
+        </div>
       </Pane>
     </Container>
   );

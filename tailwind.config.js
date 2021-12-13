@@ -33,6 +33,15 @@ module.exports = {
           400: "#D14343",
         },
       },
+      width: {
+        128: "32rem",
+      },
+      fontSize: {
+        tiny: ["10px", "16px"],
+        H_400: ["0.875rem", "1.5rem"],
+        H_500: ["1rem", "1.5rem"],
+        H_700: ["1.25rem", "1.5rem"],
+      },
     },
     container: {
       center: true,

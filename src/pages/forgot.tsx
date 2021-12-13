@@ -21,7 +21,7 @@ const ForgotPasswordPage: NextPage = () => {
         {...undefined}
       >
         <Logo />
-        <p className="mt-5 mb-5 text-base font-semibold text-N-900">
+        <p className="mt-5 mb-5 text-H_500 font-semibold text-N-900">
           Forgot Your Password?
         </p>
         <Pane

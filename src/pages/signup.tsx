@@ -8,10 +8,10 @@ import FormButton from "../components/form/FormButton";
 import Container from "../components/layout/Container";
 import FormCheckBox from "../components/form/FormCheckBox";
 import { BsInfoCircleFill } from "react-icons/bs";
-
-import pallete from "../config/pallete";
 import AppHeading from "../components/Typography/AppHeading";
-import { Headline } from "../styles/types";
+import { Headline, Paragraph } from "../utils/types";
+import AppParagraph from "../components/Typography/AppParagraph";
+import Link from "next/link";
 
 const SignupPage: NextPage = () => {
   return (
@@ -19,7 +19,7 @@ const SignupPage: NextPage = () => {
       <Head>
         <title>signup</title>
       </Head>
-      <div className="mt-28  flex flex-col justify-center items-center sm:p-1 md:p-0 sm:w-full md:w-128">
+      <div className="mt-28  flex flex-col justify-center items-center  sm:p-1 md:p-0 sm:w-full md:w-128 lg:w-128">
         <Logo />
         <Pane
           display="flex"
@@ -29,13 +29,19 @@ const SignupPage: NextPage = () => {
           {...undefined}
         >
           <div className="mt-2 mb-2">
-            <p className="text-base font-semibold text-N-900">Signup</p>
-            <p className="text-sm text-left font-normal min-w-full  text-N-800">
-              Don’t have an account yet?
-              <span className="ml-1 text-B-500 cursor-pointer">
-                Sign up free.
-              </span>
-            </p>
+            <p className="text-H_700  font-semibold text-N-900">Signup</p>
+            <div className="flex flex-row flex-wrap">
+              <AppParagraph
+                paragraphType={Paragraph.P200}
+                text="Already have an account?"
+                rest={["text-N-800"]}
+              />
+              <Link href="/login">
+                <a className="ml-0 md:ml-1  text-sm text-B-500 cursor-pointer">
+                  Sign in.
+                </a>
+              </Link>
+            </div>
           </div>
           <div className="sm:grid sm:grid-cols-2 sm:gap-4">
             <FormInput label="First Name" labelSecondary={null} />
@@ -44,26 +50,42 @@ const SignupPage: NextPage = () => {
           <FormInput label="Company Name" labelSecondary={null} />
           <FormInput label="Email" labelSecondary={null} />
           <FormInput label="Create Passowrd" labelSecondary={null} />
-          <p className="text-sm font-normal text-N-800 flex flex-row">
-            Are you an agency and want to turn on agency mode?
-            {<BsInfoCircleFill size={20} className="ml-1" />}
-          </p>
+          <div className="flex flex-row flex-wrap">
+            <AppHeading
+              headingType={Headline.H400}
+              text="Are you an agency and want to turn on agency mode?"
+              rest={["text-N-800"]}
+            />
+            <BsInfoCircleFill size={20} className="ml-1 text-N-900" />
+          </div>
           <Pane className="flex flex-row space-x-5">
             <FormCheckBox label="No" checked={false} />
             <FormCheckBox label="Yes" checked={true} />
           </Pane>
 
           <FormButton text={"Sign in"} />
-          <p className="text-xs text-center font-normal my-4 " color="#5A5F68">
-            By clicking sign up, you agree to our{" "}
-            <span className="text-B-500 mx-1 cursor-pointer">
-              terms of service
-            </span>
-            and{" "}
-            <span className="text-B-500 mx-1 cursor-pointer">
-              privacy policy.
-            </span>
-          </p>
+          <div className="flex flex-row flex-wrap justify-center align-middle items-center">
+            <AppParagraph
+              paragraphType={Paragraph.P100}
+              text="By clicking sign up, you agree to our"
+              rest={["text-center my-4"]}
+            />
+            <Link href="">
+              <a className="ml-1  text-xs text-B-500 cursor-pointer">
+                terms of service
+              </a>
+            </Link>
+            <AppParagraph
+              paragraphType={Paragraph.P100}
+              text="and"
+              rest={["ml-1"]}
+            />
+            <Link href="">
+              <a className="ml-1  text-xs text-B-500 cursor-pointer">
+                privacy policy.
+              </a>
+            </Link>
+          </div>
         </Pane>
       </div>
     </Container>

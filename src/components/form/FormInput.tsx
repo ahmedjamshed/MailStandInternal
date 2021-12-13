@@ -1,6 +1,6 @@
-import PropTypes, { InferProps } from "prop-types";
-import { TextInput } from "evergreen-ui";
 import React from "react";
+import { TextInput } from "evergreen-ui";
+import Link from "next/link";
 interface FormInputProps {
   label: string;
   labelSecondary: string | null;
@@ -10,12 +10,14 @@ const FormInput: React.FC<FormInputProps> = ({ label, labelSecondary }) => {
   return (
     <div className="my-1">
       {label && (
-        <div className="flex flex-row justify-between items-center align-middle">
-          <div className="text-sm font-medium text-N-800">{label}</div>
+        <div className="flex flex-row flex-wrap justify-between items-center align-middle">
+          <div className="text-H_400 font-medium text-N-800">{label}</div>
           {labelSecondary && (
-            <div className="text-xs font-normal align-middle cursor-pointer text-B-500">
-              {labelSecondary}
-            </div>
+            <Link href="/forgot">
+              <a className="ml-0 sm:ml-1  text-xs text-B-500 cursor-pointer">
+                Forgot password
+              </a>
+            </Link>
           )}
         </div>
       )}
