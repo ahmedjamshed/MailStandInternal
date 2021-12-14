@@ -100,7 +100,7 @@ const SignupPage: NextPage = (props) => {
         >
           <Pane>
             <Heading size={700} fontSize="1.25rem" fontWeight="bold">
-              Signup
+              Sign up
             </Heading>
             <Pane
               display="flex"
@@ -135,20 +135,20 @@ const SignupPage: NextPage = (props) => {
             <FormInput
               name={"first_name"}
               onChange={handleChange}
-              label="First Name"
+              label="First name"
               labelSecondary={null}
             />
             <FormInput
               name="last_name"
               onChange={handleChange}
-              label="Last Name"
+              label="Last name"
               labelSecondary={null}
             />
           </Pane>
           <FormInput
             name="company_name"
             onChange={handleChange}
-            label="Company Name"
+            label="Company name"
             labelSecondary={null}
           />
           <FormInput
@@ -160,7 +160,7 @@ const SignupPage: NextPage = (props) => {
           <FormInput
             name="password"
             onChange={handleChange}
-            label="Create Passowrd"
+            label="Create password"
             labelSecondary={null}
           />
 
@@ -169,7 +169,7 @@ const SignupPage: NextPage = (props) => {
             flexDirection="row"
             alignItems="center"
             flexWrap="wrap"
-            justifyContent="center"
+            justifyContent="start"
           >
             <Text
               size={400}
