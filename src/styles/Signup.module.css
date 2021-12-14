@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer components {
-  .container {
-    @apply mt-28  flex flex-col justify-center items-center;
-  }
-}

@@ -31,10 +31,24 @@ const ForgotPasswordPage: NextPage = () => {
           className="flex-col px-10 py-10 sm:w-full md:w-96 bg-white"
           {...undefined}
         >
-          <FormInput label="New Password" labelSecondary={""} />
-          <FormInput label="Confirm Password" labelSecondary={""} />
+          <FormInput
+            name="new_password"
+            onChange={() => {}}
+            label="New Password"
+            labelSecondary={""}
+          />
+          <FormInput
+            name="confirm_password"
+            onChange={() => {}}
+            label="Confirm Password"
+            labelSecondary={""}
+          />
 
-          <FormButton iconBefore={undefined} text={"Reset Password"} />
+          <FormButton
+            onClick={() => {}}
+            iconBefore={undefined}
+            text={"Reset Password"}
+          />
         </Pane>
       </Pane>
     </Container>

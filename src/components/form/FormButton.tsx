@@ -5,11 +5,13 @@ import pallete from "../../config/pallete";
 interface FormInputProps {
   text: string;
   iconBefore: any;
+  onClick: () => void;
 }
 
 const FormButton: React.FC<FormInputProps> = ({
   text,
   iconBefore,
+  onClick,
   ...rest
 }) => {
   return (
@@ -19,6 +21,7 @@ const FormButton: React.FC<FormInputProps> = ({
       appearance="superdanger"
       color={"white"}
       className="h-8 mt-2 text-center font-bold text-sm"
+      onClick={onClick}
       {...rest}
     >
       {text}

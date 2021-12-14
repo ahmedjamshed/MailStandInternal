@@ -55,7 +55,11 @@ const IndexPage: NextPage = () => {
               />
             </Pane>
             <Pane textAlign={"center"} marginTop={majorScale(3)}>
-              <FormButton text="Add workspace" iconBefore={AddIcon} />
+              <FormButton
+                onClick={() => {}}
+                text="Add workspace"
+                iconBefore={AddIcon}
+              />
             </Pane>
           </Pane>
         </div>

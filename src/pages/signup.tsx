@@ -1,5 +1,15 @@
-import { Image, Pane, useTheme, Text } from "evergreen-ui";
-import React from "react";
+import {
+  Image,
+  Pane,
+  useTheme,
+  Text,
+  Heading,
+  Paragraph,
+  Link as ELink,
+  majorScale,
+  minorScale,
+} from "evergreen-ui";
+import React, { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import FormInput from "../components/form/FormInput";
@@ -7,88 +17,204 @@ import FormButton from "../components/form/FormButton";
 import Container from "../components/layout/Container";
 import FormCheckBox from "../components/form/FormCheckBox";
 import { BsInfoCircleFill } from "react-icons/bs";
-import AppHeading from "../components/Typography/AppHeading";
-import { Headline, Paragraph } from "../utils/types";
-import AppParagraph from "../components/Typography/AppParagraph";
 import Link from "next/link";
 import pallete from "../config/pallete";
+import { agency_mode, TeammateUser } from "../utils/types";
+import { signupUser, selectUser } from "../redux/signup/userSlice";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
 
 const SignupPage: NextPage = () => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const dispatch = useAppDispatch();
+  const { api_key, status } = useAppSelector(selectUser);
+  const [checked, setChecked] = useState<agency_mode>({
+    yes: true,
+    No: false,
+  });
+  const [inputs, setInputs] = useState<TeammateUser | any>({
+    first_name: null,
+    last_name: null,
+    company_name: null,
+    email: null,
+    password: null,
+    timezone: timezone,
+    agency_mode: checked.yes,
+    team_invite: null,
+    referred_by: null,
+  });
+
+  const handleSubmit = () => {
+    dispatch(signupUser(inputs));
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
+    const name = e?.target?.name;
+    const value = e?.target?.value;
+    setInputs({ ...inputs, [name]: value });
+  };
   return (
     <Container>
       <Head>
         <title>signup</title>
       </Head>
-      <div className="mt-28  flex flex-col justify-center items-center  sm:p-1 md:p-0  sm:w-full md:w-128 lg:w-128">
+      <Pane className="mt-11  flex flex-col justify-center items-center  sm:p-1 md:p-0  sm:w-full md:w-128 lg:w-128;">
         <Image src="/images/logo_mailstand.svg" alt="Mailstand Logo" />
-
         <Pane
           display="flex"
           border="default"
-          //   width={365}
-          className="flex-col mt-5 mb-5 px-10 py-5 w-full bg-white"
+          flexDirection="column"
+          padding={35}
+          marginTop={35}
+          className="w-full min-h-min bg-white"
           {...undefined}
         >
-          <div className="mt-2 mb-2">
-            <p className="text-H_700   font-semibold text-N-900">Signup</p>
-            <div className="flex flex-row flex-wrap pt-2  align-middle items-center">
-              <AppParagraph
-                paragraphType={Paragraph.P200}
-                text="Already have an account?"
-                rest={["text-textGrey"]}
-              />
+          <Pane>
+            <Heading size={700} fontSize="1.25rem" fontWeight="bold">
+              Signup
+            </Heading>
+            <Pane className="flex flex-row flex-wrap pt-2 align-middle items-center">
+              <Paragraph
+                size={400}
+                fontSize={".876rem"}
+                color={pallete.textGrey}
+              >
+                Already have an account?
+              </Paragraph>
               <Link href="/login">
-                <a className="ml-0 md:ml-1  text-sm text-B-500 cursor-pointer">
-                  Sign in.
-                </a>
+                <ELink
+                  size={400}
+                  fontSize={".876rem"}
+                  color={pallete.hoverBlue}
+                  marginLeft={minorScale(1)}
+                  cursor="pointer"
+                >
+                  {"Sign in."}
+                </ELink>
               </Link>
-            </div>
-          </div>
-          <div className="sm:grid sm:grid-cols-2 sm:gap-4">
-            <FormInput label="First Name" labelSecondary={null} />
-            <FormInput label="Last Name" labelSecondary={null} />
-          </div>
-          <FormInput label="Company Name" labelSecondary={null} />
-          <FormInput label="Email" labelSecondary={null} />
-          <FormInput label="Create Passowrd" labelSecondary={null} />
-          <div className="flex flex-row flex-wrap">
-            <AppHeading
-              headingType={Headline.H400}
-              text="Are you an agency and want to turn on agency mode?"
-              rest={["text-N-800"]}
+            </Pane>
+          </Pane>
+          <div className="sm:grid sm:grid-cols-2 text-H_400 sm:gap-4">
+            <FormInput
+              name={"first_name"}
+              onChange={handleChange}
+              label="First Name"
+              labelSecondary={null}
             />
-            <BsInfoCircleFill size={16} className="ml-1 text-N-900" />
+            <FormInput
+              name="last_name"
+              onChange={handleChange}
+              label="Last Name"
+              labelSecondary={null}
+            />
           </div>
+          <FormInput
+            name="company_name"
+            onChange={handleChange}
+            label="Company Name"
+            labelSecondary={null}
+          />
+          <FormInput
+            name="email"
+            onChange={handleChange}
+            label="Email"
+            labelSecondary={null}
+          />
+          <FormInput
+            name="password"
+            onChange={handleChange}
+            label="Create Passowrd"
+            labelSecondary={null}
+          />
+          <Pane
+            display="flex"
+            flexDirection="row"
+            flexWrap="wrap"
+            alignItems="center"
+            marginTop={minorScale(4)}
+          >
+            <Heading size={400} fontSize="0.875rem" lineHeight={".5rem"}>
+              Are you an agency and want to turn on agency mode?
+            </Heading>
+            <BsInfoCircleFill size={16} className="ml-1 text-N-900" />
+          </Pane>
           <Pane className="flex flex-row space-x-5">
-            <FormCheckBox label="No" checked={false} />
-            <FormCheckBox label="Yes" checked={true} />
+            <FormCheckBox
+              onChange={(e) => {
+                setChecked({ ["yes"]: false, ["No"]: true });
+                setInputs({
+                  ...inputs,
+                  ["agency_mode"]: false,
+                });
+              }}
+              label="No"
+              checked={checked.No}
+            />
+            <FormCheckBox
+              onChange={(e) => {
+                setChecked({ ["yes"]: true, ["No"]: false });
+
+                setInputs({
+                  ...inputs,
+                  ["agency_mode"]: true,
+                });
+              }}
+              label="Yes"
+              checked={checked.yes}
+            />
           </Pane>
 
-          <FormButton text={"Sign in"} iconBefore={undefined} />
-          <div className="flex flex-row flex-wrap justify-center align-middle items-center">
-            <AppParagraph
-              paragraphType={Paragraph.P100}
-              text="By clicking sign up, you agree to our"
-              rest={["text-center my-4"]}
-            />
+          <FormButton
+            onClick={handleSubmit}
+            text={"Sign in"}
+            iconBefore={undefined}
+          />
+          <Pane
+            display="flex"
+            flexDirection="row"
+            flexWrap="wrap"
+            justifyContent="center"
+            alignItems="center"
+            marginTop={minorScale(4)}
+          >
+            <Paragraph
+              fontSize={"0.75rem"}
+              lineHeight="1rem"
+              color={pallete.textGrey}
+            >
+              By clicking sign up, you agree to our
+            </Paragraph>
             <Link href="">
-              <a className="ml-1  text-xs text-B-500 cursor-pointer">
-                terms of service
-              </a>
+              <ELink
+                size={400}
+                fontSize={".75rem"}
+                color={pallete.hoverBlue}
+                marginLeft={minorScale(1)}
+                cursor="pointer"
+              >
+                {"terms of service"}
+              </ELink>
             </Link>
-            <AppParagraph
-              paragraphType={Paragraph.P100}
-              text="and"
-              rest={["ml-1"]}
-            />
+            <Paragraph
+              fontSize={"0.75rem"}
+              lineHeight="1rem"
+              color={pallete.textGrey}
+              marginLeft={minorScale(1)}
+            >
+              and
+            </Paragraph>
             <Link href="">
-              <a className="ml-1  text-xs text-B-500 cursor-pointer">
-                privacy policy.
-              </a>
+              <ELink
+                size={400}
+                fontSize={".75rem"}
+                color={pallete.hoverBlue}
+                marginLeft={minorScale(1)}
+                cursor="pointer"
+              >
+                {"privacy policy"}
+              </ELink>
             </Link>
-          </div>
+          </Pane>
         </Pane>
-      </div>
+      </Pane>
     </Container>
   );
 };

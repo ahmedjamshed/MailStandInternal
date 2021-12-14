@@ -31,8 +31,17 @@ const ForgotPasswordPage: NextPage = () => {
           className="flex-col px-10 py-10 sm:w-full md:w-96 bg-white"
           {...undefined}
         >
-          <FormInput label="Email" labelSecondary={""} />
-          <FormButton text={"Send Reset Passcode"} iconBefore={undefined} />
+          <FormInput
+            name="email"
+            onChange={() => {}}
+            label="Email"
+            labelSecondary={""}
+          />
+          <FormButton
+            onClick={() => {}}
+            text={"Send Reset Passcode"}
+            iconBefore={undefined}
+          />
         </Pane>
       </Pane>
     </Container>

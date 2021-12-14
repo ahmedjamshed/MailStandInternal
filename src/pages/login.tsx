@@ -34,9 +34,23 @@ const LoginPage: NextPage = () => {
           className="flex-col px-10 py-10 sm:w-full md:w-96 bg-white"
           {...undefined}
         >
-          <FormInput label="Email" labelSecondary={""} />
-          <FormInput label="Password" labelSecondary="Forgot Password?" />
-          <FormButton text={"Sign in"} iconBefore={undefined} />
+          <FormInput
+            name="email"
+            onChange={() => {}}
+            label="Email"
+            labelSecondary={""}
+          />
+          <FormInput
+            name="password"
+            onChange={() => {}}
+            label="Password"
+            labelSecondary="Forgot Password?"
+          />
+          <FormButton
+            text={"Sign in"}
+            onClick={() => {}}
+            iconBefore={undefined}
+          />
         </Pane>
       </Pane>
       <Pane

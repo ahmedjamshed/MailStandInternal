@@ -7,7 +7,7 @@ export default {
   components: {
     ...defaultTheme.components,
     colors: {
-      pallete,
+      ...pallete,
       ...defaultTheme.components.colors,
       border: {
         ...defaultTheme.components.border,
@@ -29,6 +29,15 @@ export default {
           _focus: {
             boxShadow: "0 0 0 2px lightcoral",
           },
+        },
+      },
+    },
+    Checkbox: {
+      ...defaultTheme.components.Checkbox,
+      appearances: {
+        default: {
+          ...defaultTheme.components.Checkbox.appearances.default,
+          color: "#303139",
         },
       },
     },
