@@ -24,7 +24,7 @@ import {
   import { InfoSignIcon } from 'evergreen-ui'
   import { useRouter } from "next/router";
   
-  const SignupPage: NextPage = (props) => {
+  const SignupPage: NextPage = () => {
 
     const router = useRouter()
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -48,6 +48,7 @@ import {
 
     useEffect(() => {
       setInputs({
+        ...inputs,
         team_invite: router.query.slug?.[0],
         referred_by: router.query['code']
       })
