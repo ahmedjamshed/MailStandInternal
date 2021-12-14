@@ -23,6 +23,7 @@ import { signupUser, selectUser } from "../../redux/signup/userSlice";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { InfoSignIcon } from "evergreen-ui";
 import { useRouter } from "next/router";
+import { toaster } from "evergreen-ui";
 
 const SignupPage: NextPage = (props) => {
   const router = useRouter();
@@ -41,19 +42,24 @@ const SignupPage: NextPage = (props) => {
     password: null,
     timezone: timezone,
     agency_mode: checked.yes,
-    team_invite: router.query.slug?.[0],
-    referred_by: router.query["code"],
+    team_invite: null,
+    referred_by: null,
   });
 
   useEffect(() => {
     setInputs({
-      team_invite: router.query.slug?.[0],
-      referred_by: router.query["code"],
+      ...inputs,
+      team_invite: router.query.slug?.[0] ?? null,
+      referred_by: router.query["code"] ?? null,
     });
   }, [router]);
 
   const handleSubmit = () => {
-    dispatch(signupUser(inputs));
+    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputs.email)) {
+      dispatch(signupUser(inputs));
+    } else toaster.danger('Invalid Email.')
+
+    
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const name = e?.target?.name;

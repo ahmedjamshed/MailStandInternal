@@ -3,16 +3,18 @@ import { AxiosError } from "axios";
 import { AppState } from "../../app/store";
 import Authservice from "../../services/user.service";
 import { TeammateUser } from "../../utils/types";
+import { toaster } from "evergreen-ui";
 
 export const signupUser = createAsyncThunk(
   "user/signup",
   async (user: TeammateUser) => {
     try {
       const response = await Authservice.register(user);
+      toaster.success(response.data['api_key'])
       return response.data;
     } catch (error: Error | AxiosError | any) {
-      const message = error?.message;
-      console.log(error);
+      const message = (error as AxiosError)?.response?.data?.message;
+      toaster.danger(message)
       return message;
     }
     // The value we return becomes the `fulfilled` action payload
