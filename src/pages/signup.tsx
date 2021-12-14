@@ -16,12 +16,12 @@ import FormInput from "../components/form/FormInput";
 import FormButton from "../components/form/FormButton";
 import Container from "../components/layout/Container";
 import FormCheckBox from "../components/form/FormCheckBox";
-import { BsInfoCircleFill } from "react-icons/bs";
 import Link from "next/link";
 import pallete from "../config/pallete";
 import { agency_mode, TeammateUser } from "../utils/types";
 import { signupUser, selectUser } from "../redux/signup/userSlice";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { InfoSignIcon } from 'evergreen-ui'
 
 const SignupPage: NextPage = () => {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -71,7 +71,7 @@ const SignupPage: NextPage = () => {
             <Heading size={700} fontSize="1.25rem" fontWeight="bold">
               Signup
             </Heading>
-            <Pane className="flex flex-row flex-wrap pt-2 align-middle items-center">
+            <Pane display="flex" flexDirection={"row"} paddingTop={minorScale(2)} alignItems="center">
               <Paragraph
                 size={400}
                 fontSize={".876rem"}
@@ -92,7 +92,7 @@ const SignupPage: NextPage = () => {
               </Link>
             </Pane>
           </Pane>
-          <div className="sm:grid sm:grid-cols-2 text-H_400 sm:gap-4">
+          <div className="sm:grid sm:grid-cols-2 sm:gap-4">
             <FormInput
               name={"first_name"}
               onChange={handleChange}
@@ -134,7 +134,7 @@ const SignupPage: NextPage = () => {
             <Heading size={400} fontSize="0.875rem" lineHeight={".5rem"}>
               Are you an agency and want to turn on agency mode?
             </Heading>
-            <BsInfoCircleFill size={16} className="ml-1 text-N-900" />
+            <InfoSignIcon color="secondaryButton" marginLeft={minorScale(2)} />
           </Pane>
           <Pane className="flex flex-row space-x-5">
             <FormCheckBox
@@ -164,7 +164,7 @@ const SignupPage: NextPage = () => {
 
           <FormButton
             onClick={handleSubmit}
-            text={"Sign in"}
+            text={"Sign up"}
             iconBefore={undefined}
           />
           <Pane
