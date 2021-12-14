@@ -21,6 +21,7 @@ const FormInput: React.FC<FormInputProps> = ({
         <div className="flex flex-row flex-wrap justify-between items-center align-middle">
           <Heading
             size={400}
+            fontWeight="500"
             fontSize={".875rem"}
             lineHeight={"1.5rem"}
             color={pallete.N_800}

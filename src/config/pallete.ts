@@ -1,4 +1,5 @@
 export default {
+  white: "#FFFFFF",
   neutral: "#303139",
   greyNeutral: "#D7D8DC",
   secondaryButton: "#1A1B21",

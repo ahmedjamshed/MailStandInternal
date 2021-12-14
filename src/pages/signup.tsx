@@ -1,5 +1,4 @@
 import {
-  Image,
   Pane,
   useTheme,
   Text,
@@ -21,7 +20,8 @@ import pallete from "../config/pallete";
 import { agency_mode, TeammateUser } from "../utils/types";
 import { signupUser, selectUser } from "../redux/signup/userSlice";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { InfoSignIcon } from 'evergreen-ui'
+import { InfoSignIcon } from "evergreen-ui";
+import Image from "next/image";
 
 const SignupPage: NextPage = () => {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -56,25 +56,49 @@ const SignupPage: NextPage = () => {
       <Head>
         <title>signup</title>
       </Head>
-      <Pane className="mt-11  flex flex-col justify-center items-center  sm:p-1 md:p-0  sm:w-full md:w-128 lg:w-128;">
-        <Image src="/images/logo_mailstand.svg" alt="Mailstand Logo" />
+      <Pane
+        display="flex"
+        justifyContent="center"
+        flexDirection="column"
+        alignItems="center"
+        marginTop={majorScale(8)}
+        className="sm:p-1 md:p-0  sm:w-full md:w-128 lg:w-128;"
+      >
+        <Image
+          src="/images/logo_mailstand.svg"
+          alt="Mailstand Logo"
+          width={30}
+          height={24.4}
+        />
         <Pane
           display="flex"
           border="default"
           flexDirection="column"
-          padding={35}
+          paddingTop={35}
+          paddingLeft={35}
+          paddingRight={35}
+          paddingBottom={20}
           marginTop={35}
-          className="w-full min-h-min bg-white"
+          background={pallete.white}
+          className="w-full min-h-min"
           {...undefined}
         >
           <Pane>
             <Heading size={700} fontSize="1.25rem" fontWeight="bold">
               Signup
             </Heading>
-            <Pane display="flex" flexDirection={"row"} paddingTop={minorScale(2)} alignItems="center">
+            <Pane
+              display="flex"
+              flexDirection={"row"}
+              flexWrap="wrap"
+              paddingTop={minorScale(2)}
+              alignItems="center"
+            >
               <Paragraph
                 size={400}
+                fontWeight={400}
                 fontSize={".876rem"}
+                lineHeight={"1.25rem"}
                 color={pallete.textGrey}
               >
                 Already have an account?
@@ -92,7 +116,7 @@ const SignupPage: NextPage = () => {
               </Link>
             </Pane>
           </Pane>
-          <div className="sm:grid sm:grid-cols-2 sm:gap-4">
+          <Pane className="sm:grid sm:grid-cols-2 sm:gap-4">
             <FormInput
               name={"first_name"}
               onChange={handleChange}
@@ -105,7 +129,7 @@ const SignupPage: NextPage = () => {
               label="Last Name"
               labelSecondary={null}
             />
-          </div>
+          </Pane>
           <FormInput
             name="company_name"
             onChange={handleChange}
@@ -124,19 +148,27 @@ const SignupPage: NextPage = () => {
             label="Create Passowrd"
             labelSecondary={null}
           />
+
           <Pane
             display="flex"
             flexDirection="row"
-            flexWrap="wrap"
             alignItems="center"
-            marginTop={minorScale(4)}
+            flexWrap="wrap"
+            justifyContent="center"
           >
-            <Heading size={400} fontSize="0.875rem" lineHeight={".5rem"}>
+            <Text
+              size={400}
+              fontWeight="500"
+              fontSize={".875rem"}
+              lineHeight={"1.5rem"}
+              color={pallete.N_800}
+              textAlign="justify"
+            >
               Are you an agency and want to turn on agency mode?
-            </Heading>
+            </Text>
             <InfoSignIcon color="secondaryButton" marginLeft={minorScale(2)} />
           </Pane>
-          <Pane className="flex flex-row space-x-5">
+          <Pane display="flex" flexDirection="row" className="space-x-5">
             <FormCheckBox
               onChange={(e) => {
                 setChecked({ ["yes"]: false, ["No"]: true });
@@ -178,6 +210,7 @@ const SignupPage: NextPage = () => {
             <Paragraph
               fontSize={"0.75rem"}
               lineHeight="1rem"
+              fontWeight="normal"
               color={pallete.textGrey}
             >
               By clicking sign up, you agree to our
@@ -186,6 +219,8 @@ const SignupPage: NextPage = () => {
               <ELink
                 size={400}
                 fontSize={".75rem"}
+                lineHeight="1rem"
+                fontWeight="normal"
                 color={pallete.hoverBlue}
                 marginLeft={minorScale(1)}
                 cursor="pointer"
@@ -196,6 +231,7 @@ const SignupPage: NextPage = () => {
             <Paragraph
               fontSize={"0.75rem"}
               lineHeight="1rem"
+              fontWeight="normal"
               color={pallete.textGrey}
               marginLeft={minorScale(1)}
             >
@@ -204,7 +240,9 @@ const SignupPage: NextPage = () => {
             <Link href="">
               <ELink
                 size={400}
-                fontSize={".75rem"}
+                fontSize={"0.75rem"}
+                fontWeight="normal"
+                lineHeight="1rem"
                 color={pallete.hoverBlue}
                 marginLeft={minorScale(1)}
                 cursor="pointer"
