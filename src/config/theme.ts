@@ -4,6 +4,10 @@ import pallete from "./pallete";
 
 export default {
   ...defaultTheme,
+  fontWeights: {
+    600: "600px",
+    400: "400px",
+  },
   components: {
     ...defaultTheme.components,
     colors: {
@@ -14,6 +18,7 @@ export default {
         default: "#D7D8DC",
       },
     },
+
     Button: {
       ...defaultTheme.components.Button,
       appearances: {
