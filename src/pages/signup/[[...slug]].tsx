@@ -66,7 +66,7 @@ const SignupPage: NextPage = () => {
   }, [router]);
 
   const schema = yup.object({
-    first_name: yup.string().required().min(3).nullable(),
+    first_name: yup.string().required().min(3).nullable(false),
     last_name: yup.string().required().min(3).nullable(),
     company_name: yup.string().required().min(3).nullable(),
     email: yup.string().email().required().nullable(),
