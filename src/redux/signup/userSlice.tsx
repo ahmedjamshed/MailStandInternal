@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
+import { toaster } from "evergreen-ui";
 import { AppState } from "../../app/store";
 import Authservice from "../../services/user.service";
 import { TeammateUser } from "../../utils/types";
@@ -11,8 +12,8 @@ export const signupUser = createAsyncThunk(
       const response = await Authservice.register(user);
       return response.data;
     } catch (error: Error | AxiosError | any) {
-      const message = error?.message;
-      console.log(error);
+      const message = (error as AxiosError)?.response?.data?.message;
+      toaster.danger(message);
       return message;
     }
     // The value we return becomes the `fulfilled` action payload

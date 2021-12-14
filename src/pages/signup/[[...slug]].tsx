@@ -23,8 +23,9 @@ import { signupUser, selectUser } from "../../redux/signup/userSlice";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { InfoSignIcon } from "evergreen-ui";
 import { useRouter } from "next/router";
+import * as yup from "yup";
 
-const SignupPage: NextPage = (props) => {
+const SignupPage: NextPage = () => {
   const router = useRouter();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const dispatch = useAppDispatch();
@@ -41,25 +42,62 @@ const SignupPage: NextPage = (props) => {
     password: null,
     timezone: timezone,
     agency_mode: checked.yes,
-    team_invite: router.query.slug?.[0],
-    referred_by: router.query["code"],
+    team_invite: null,
+    referred_by: null,
   });
 
+  const [errors, setErrors] = useState<TeammateUser | any>({
+    first_name: null,
+    last_name: null,
+    company_name: null,
+    email: null,
+    password: null,
+    timezone: null,
+    agency_mode: null,
+    team_invite: null,
+    referred_by: null,
+  });
   useEffect(() => {
     setInputs({
-      team_invite: router.query.slug?.[0],
-      referred_by: router.query["code"],
+      ...inputs,
+      team_invite: router.query.slug?.[0] ?? null,
+      referred_by: router.query["code"] ?? null,
     });
   }, [router]);
 
-  const handleSubmit = () => {
-    dispatch(signupUser(inputs));
+  const schema = yup.object({
+    first_name: yup.string().required().min(3).nullable(),
+    last_name: yup.string().required().min(3).nullable(),
+    company_name: yup.string().required().min(3).nullable(),
+    email: yup.string().email().required().nullable(),
+    password: yup.string().required().min(6).max(12).nullable(),
+    timezone: yup.string().required().max(60).nullable(),
+    agency_mode: yup.boolean().required().nullable(),
+    team_invite: yup.string().nullable(),
+    referred_by: yup.string().nullable(),
+  });
+
+  const handleSubmit = async () => {
+    setErrors({});
+    let validationErrors = false;
+    schema.validate(inputs, { abortEarly: false }).catch(function (err) {
+      if (err) {
+        validationErrors = true;
+        setErrors({ ...errors, [err.errors[0].split(" ")[0]]: err.errors[0] });
+      }
+    });
+    !validationErrors &&
+      inputs.passowrd !== null &&
+      inputs.first_name !== null &&
+      inputs.email !== null &&
+      dispatch(signupUser(inputs));
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const name = e?.target?.name;
     const value = e?.target?.value;
     setInputs({ ...inputs, [name]: value });
   };
+
   return (
     <Container>
       <Head>
@@ -127,12 +165,16 @@ const SignupPage: NextPage = (props) => {
           </Pane>
           <Pane className="sm:grid sm:grid-cols-2 sm:gap-4">
             <FormInput
+              isInvalid={errors.first_name}
+              validationMessage={errors.first_name}
               name={"first_name"}
               onChange={handleChange}
               label="First Name"
               labelSecondary={null}
             />
             <FormInput
+              isInvalid={errors.last_name}
+              validationMessage={errors.last_name}
               name="last_name"
               onChange={handleChange}
               label="Last Name"
@@ -140,18 +182,24 @@ const SignupPage: NextPage = (props) => {
             />
           </Pane>
           <FormInput
+            isInvalid={errors.company_name}
+            validationMessage={errors.company_name}
             name="company_name"
             onChange={handleChange}
             label="Company Name"
             labelSecondary={null}
           />
           <FormInput
+            isInvalid={errors.email}
+            validationMessage={errors.email}
             name="email"
             onChange={handleChange}
             label="Email"
             labelSecondary={null}
           />
           <FormInput
+            isInvalid={errors.password}
+            validationMessage={errors.password}
             name="password"
             onChange={handleChange}
             label="Create Passowrd"

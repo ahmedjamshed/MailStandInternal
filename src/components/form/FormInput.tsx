@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import { Heading, minorScale, Pane, TextInput, useTheme } from "evergreen-ui";
+import {
+  Heading,
+  minorScale,
+  Pane,
+  TextInput,
+  TextInputField,
+  useTheme,
+} from "evergreen-ui";
 import Link from "next/link";
 import pallete from "../../config/pallete";
 interface FormInputProps {
   label: string;
   labelSecondary: string | null;
   name: string;
+  isInvalid: boolean | null;
+  validationMessage: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
 }
 
@@ -13,6 +22,8 @@ const FormInput: React.FC<FormInputProps> = ({
   label,
   labelSecondary,
   name,
+  isInvalid,
+  validationMessage,
   onChange,
 }) => {
   return (
@@ -37,13 +48,16 @@ const FormInput: React.FC<FormInputProps> = ({
           )}
         </div>
       )}
-      <TextInput
+      <TextInputField
         backgroundColor={pallete.inputBackgound}
         width={"100%"}
         className="my-2 h-8"
-        {...undefined}
         onChange={onChange}
         name={name}
+        isInvalid={isInvalid}
+        validationMessage={validationMessage}
+        {...undefined}
+        label=""
       />
     </Pane>
   );
