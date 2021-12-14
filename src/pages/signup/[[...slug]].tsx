@@ -42,15 +42,15 @@ import {
       password: null,
       timezone: timezone,
       agency_mode: checked.yes,
-      team_invite: router.query.slug?.[0],
-      referred_by: router.query['code'],
+      team_invite: null,
+      referred_by: null,
     });
 
     useEffect(() => {
       setInputs({
         ...inputs,
-        team_invite: router.query.slug?.[0],
-        referred_by: router.query['code']
+        team_invite: router.query.slug?.[0] ?? null,
+        referred_by: router.query['code'] ?? null
       })
     }, [router])
 
