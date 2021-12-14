@@ -1,70 +1,67 @@
 import {
-    Image,
-    Pane,
-    useTheme,
-    Text,
-    Heading,
-    Paragraph,
-    Link as ELink,
-    majorScale,
-    minorScale,
-  } from "evergreen-ui";
-  import React, { useEffect, useState } from "react";
-  import type { NextPage } from "next";
-  import Head from "next/head";
-  import FormInput from "../../components/form/FormInput";
-  import FormButton from "../../components/form/FormButton";
-  import Container from "../../components/layout/Container";
-  import FormCheckBox from "../../components/form/FormCheckBox";
-  import Link from "next/link";
-  import pallete from "../../config/pallete";
-  import { agency_mode, TeammateUser } from "../../utils/types";
-  import { signupUser, selectUser } from "../../redux/signup/userSlice";
-  import { useAppSelector, useAppDispatch } from "../../app/hooks";
-  import { InfoSignIcon } from 'evergreen-ui'
-  import { useRouter } from "next/router";
-  
-  const SignupPage: NextPage = (props) => {
+  Image,
+  Pane,
+  useTheme,
+  Text,
+  Heading,
+  Paragraph,
+  Link as ELink,
+  majorScale,
+  minorScale,
+} from "evergreen-ui";
+import React, { useEffect, useState } from "react";
+import type { NextPage } from "next";
+import Head from "next/head";
+import FormInput from "../../components/form/FormInput";
+import FormButton from "../../components/form/FormButton";
+import Container from "../../components/layout/Container";
+import FormCheckBox from "../../components/form/FormCheckBox";
+import Link from "next/link";
+import pallete from "../../config/pallete";
+import { agency_mode, TeammateUser } from "../../utils/types";
+import { signupUser, selectUser } from "../../redux/signup/userSlice";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { InfoSignIcon } from "evergreen-ui";
+import { useRouter } from "next/router";
 
-    const router = useRouter()
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const dispatch = useAppDispatch();
-    const { api_key, status } = useAppSelector(selectUser);
-    const [checked, setChecked] = useState<agency_mode>({
-      yes: true,
-      No: false,
-    });
-    const [inputs, setInputs] = useState<TeammateUser | any>({
-      first_name: null,
-      last_name: null,
-      company_name: null,
-      email: null,
-      password: null,
-      timezone: timezone,
-      agency_mode: checked.yes,
+const SignupPage: NextPage = (props) => {
+  const router = useRouter();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const dispatch = useAppDispatch();
+  const { api_key, status } = useAppSelector(selectUser);
+  const [checked, setChecked] = useState<agency_mode>({
+    yes: true,
+    No: false,
+  });
+  const [inputs, setInputs] = useState<TeammateUser | any>({
+    first_name: null,
+    last_name: null,
+    company_name: null,
+    email: null,
+    password: null,
+    timezone: timezone,
+    agency_mode: checked.yes,
+    team_invite: router.query.slug?.[0],
+    referred_by: router.query["code"],
+  });
+
+  useEffect(() => {
+    setInputs({
       team_invite: router.query.slug?.[0],
-      referred_by: router.query['code'],
+      referred_by: router.query["code"],
     });
+  }, [router]);
 
-    useEffect(() => {
-      setInputs({
-        team_invite: router.query.slug?.[0],
-        referred_by: router.query['code']
-      })
-    }, [router])
-
-    
-    
-    const handleSubmit = () => {
-      dispatch(signupUser(inputs));
-    };
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
-      const name = e?.target?.name;
-      const value = e?.target?.value;
-      setInputs({ ...inputs, [name]: value });
-    };
-    return (
-      <Container>
+  const handleSubmit = () => {
+    dispatch(signupUser(inputs));
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
+    const name = e?.target?.name;
+    const value = e?.target?.value;
+    setInputs({ ...inputs, [name]: value });
+  };
+  return (
+    <Container>
       <Head>
         <title>signup</title>
       </Head>
@@ -266,7 +263,7 @@ import {
         </Pane>
       </Pane>
     </Container>
-    );
-  };
-  
-  export default SignupPage;
+  );
+};
+
+export default SignupPage;
