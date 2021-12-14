@@ -20,6 +20,7 @@ const FormButton: React.FC<FormInputProps> = ({
       backgroundColor={pallete.neutral}
       appearance="superdanger"
       color={"white"}
+      fontWeight="600"
       className="h-8 mt-2 text-center font-bold text-sm"
       onClick={onClick}
       {...rest}

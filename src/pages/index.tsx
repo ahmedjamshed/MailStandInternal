@@ -2,7 +2,6 @@ import {
   AddIcon,
   Button,
   Heading,
-  Image,
   majorScale,
   minorScale,
   Pane,
@@ -18,7 +17,7 @@ import AppHeading from "../components/Typography/AppHeading";
 // import { Headline, Paragraph } from "../utils/types";
 // import AppParagraph as p from "../components/Typography/AppParagraph";
 import FormButton from "../components/form/FormButton";
-import Counter from "../components/counter/Counter";
+import Image from "next/image";
 
 const IndexPage: NextPage = () => {
   return (
@@ -34,8 +33,20 @@ const IndexPage: NextPage = () => {
           <meta name="description" content="" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Pane className="mt-11  flex flex-col justify-center items-center  sm:p-1 md:p-0  sm:w-full md:w-146 lg:w-146">
-          <Image src="/images/logo_mailstand.svg" alt="Mailstand Logo" />
+        <Pane
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          marginTop={majorScale(8)}
+          className="sm:p-1 md:p-0  sm:w-full md:w-146 lg:w-146"
+        >
+          <Image
+            src="/images/logo_mailstand.svg"
+            alt="Mailstand Logo"
+            width={30}
+            height={24.4}
+          />
           <Pane
             display="flex"
             flexDirection="column"
@@ -45,12 +56,18 @@ const IndexPage: NextPage = () => {
             width="100%"
             {...undefined}
           >
-            <Image src="/images/workspace_banner.svg" alt="Workspaces Banner" />
+            <Image
+              src="/images/workspace_banner.svg"
+              alt="Workspaces Banner"
+              width={150}
+              height={140}
+            />
             <Heading
               size={400}
               fontSize="1rem"
               fontWeight="600"
               lineHeight="1.5rem"
+              textAlign="center"
               marginTop={minorScale(8)}
               marginBottom={minorScale(4)}
             >

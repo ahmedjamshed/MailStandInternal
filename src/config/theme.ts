@@ -7,6 +7,7 @@ export default {
   fontWeights: {
     600: "600px",
     400: "400px",
+    500: "500px",
   },
   components: {
     ...defaultTheme.components,

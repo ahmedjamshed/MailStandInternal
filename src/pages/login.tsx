@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Pane } from "evergreen-ui";
+import { Pane, majorScale } from "evergreen-ui";
 import type { NextPage } from "next";
 import Head from "next/head";
 import FormInput from "../components/form/FormInput";
@@ -8,6 +8,7 @@ import Container from "../components/layout/Container";
 import { Paragraph } from "../utils/types";
 import AppParagraph from "../components/Typography/AppParagraph";
 import Link from "next/link";
+import Image from "next/image";
 
 const LoginPage: NextPage = () => {
   return (
@@ -18,11 +19,18 @@ const LoginPage: NextPage = () => {
       <Pane
         display="flex"
         justifyContent="center"
+        flexDirection="column"
         alignItems="center"
-        className="mt-28 flex-col sm:p-1 md:p-0"
+        marginTop={majorScale(8)}
+        className="sm:p-1 md:p-0"
         {...undefined}
       >
-        <Image src="/images/logo_mailstand.svg" alt="Mailstand Logo" />
+        <Image
+          src="/images/logo_mailstand.svg"
+          alt="Mailstand Logo"
+          width={30}
+          height={24.4}
+        />
 
         <p className="mt-5 mb-5 text-H_500 font-semibold text-N-900">
           Login to Mailstand
