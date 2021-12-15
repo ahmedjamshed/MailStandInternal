@@ -18,7 +18,6 @@ export const signupUser = createAsyncThunk(
     try {
       const response = await Authservice.register(user);
       thunkApi.dispatch(authSlice.actions.setStatus("idle"));
-      toaster.success(response);
       return response;
     } catch (error: Error | AxiosError | any) {
       const errorType = (error as AxiosError)?.response?.data?.error;
@@ -29,6 +28,7 @@ export const signupUser = createAsyncThunk(
         console.log(message);
       }
       thunkApi.dispatch(authSlice.actions.setStatus("failed"));
+      thunkApi.dispatch(authSlice.actions.resetEmail());
       // return message;
       throw new Error(message);
     }
@@ -62,12 +62,12 @@ export const VerifyUser = createAsyncThunk(
     try {
       const response = await userService.verifyUser(code);
       thunkApi.dispatch(authSlice.actions.setStatus("idle"));
-      toaster.success("Resend success");
+      toaster.success("Verified");
       return response;
     } catch (error: Error | AxiosError | any) {
       const message = (error as AxiosError)?.response?.data?.message;
       thunkApi.dispatch(authSlice.actions.setStatus("failed"));
-      toaster.danger(message.toString());
+      toaster.danger("Verification Failed");
       return message;
     }
     // The value we return becomes the `fulfilled` action payload
@@ -79,12 +79,12 @@ export const ResendVerification = createAsyncThunk(
     try {
       const response = await userService.resendVerification();
       thunkApi.dispatch(authSlice.actions.setStatus("idle"));
-      toaster.success(response);
+      toaster.success("Code Resent on Your Email");
       return response;
     } catch (error: Error | AxiosError | any) {
       const message = (error as AxiosError)?.response?.data?.message;
       thunkApi.dispatch(authSlice.actions.setStatus("failed"));
-      toaster.danger(message.toString().length);
+      toaster.danger(message);
       return message;
     }
   }

@@ -7,6 +7,7 @@ import {
   Paragraph,
   Text,
   minorScale,
+  toaster,
 } from "evergreen-ui";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -25,21 +26,27 @@ import {
 } from "../redux/signup/authSlice";
 import AuthService from "../services/auth.service";
 import { Router, useRouter } from "next/router";
+import * as yup from "yup";
 
 const VerifyPage: NextPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { email } = useAppSelector(selectAuth);
+  const { email, status } = useAppSelector(selectAuth);
 
-  const [code, setCode] = useState();
+  const [code, setCode] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const value = e?.target?.value;
     setCode(value);
   };
-  const handleConfirmation = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (code) {
+    let error = false;
+    await schema.validate({ code }).catch(function (err) {
+      error = true;
+      toaster.danger(err.errors[0].replaceAll("_", " "));
+    });
+    if (code && !error) {
       const verificationCode = {
         code: code,
       } as VerificationCode;
@@ -49,9 +56,12 @@ const VerifyPage: NextPage = () => {
   const handleResend = () => {
     dispatch(ResendVerification());
   };
-  if (!email) {
-    return <></>;
-  }
+  let schema = yup.object().shape({
+    code: yup.string().required().max(6).min(6),
+  });
+  // if (!email) {
+  //   return <></>;
+  // }
 
   return (
     <Container>
@@ -105,7 +115,7 @@ const VerifyPage: NextPage = () => {
               textAlign="center"
             >
               We just sent a verification code to{" "}
-              <Text fontWeight="700">{email}</Text> Please enter the code below
+              <Text fontWeight="700">{email}.</Text> Please enter the code below
               to verify your account.
             </Paragraph>
             <Pane width="50%">
@@ -117,6 +127,7 @@ const VerifyPage: NextPage = () => {
                 color={pallete.blackDisable}
                 textAlign="center"
                 placeholder="XXX-XXX"
+                maxlength="6"
               />
             </Pane>
           </Pane>
@@ -145,6 +156,8 @@ const VerifyPage: NextPage = () => {
               text={"Confirm Code"}
               iconBefore={undefined}
               appereance="greenButton"
+              isLoading={status === "loading" ? true : false}
+              disabled={status === "loading" ? true : false}
             />
           </Pane>
         </form>

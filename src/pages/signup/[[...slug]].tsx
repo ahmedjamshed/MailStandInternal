@@ -83,7 +83,7 @@ const SignupPage: NextPage = (props) => {
           dispatch(resetResponseError());
         }
       } catch (error) {
-        toaster.danger("something went wrong");
+        // toaster.danger("something went wrong");
       }
     }
   };
@@ -292,6 +292,8 @@ const SignupPage: NextPage = (props) => {
               appereance="superdanger"
               type="submit"
               width="100%"
+              isLoading={status === "loading" ? true : false}
+              disabled={status === "loading" ? true : false}
             />
           </form>
           <Pane
