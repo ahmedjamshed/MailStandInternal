@@ -39,8 +39,7 @@ const VerifyPage: NextPage = () => {
     const value = e?.target?.value;
     setCode(value);
   };
-  const handleConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleConfirmation = async () => {
     let error = false;
     await schema.validate({ code }).catch(function (err) {
       error = true;
@@ -78,89 +77,87 @@ const VerifyPage: NextPage = () => {
         {...undefined}
       >
         <Image src="/images/logo_mailstand.svg" alt="Mailstand Logo" />
-        <form onSubmit={handleConfirmation}>
-          <Pane
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            border="default"
-            flexDirection="column"
-            paddingTop={35}
-            paddingLeft={35}
-            paddingRight={35}
-            paddingBottom={20}
-            marginTop={35}
-            background={pallete.white}
-            className="w-full min-h-min"
-            {...undefined}
-            {...undefined}
+
+        <Pane
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          border="default"
+          flexDirection="column"
+          paddingTop={35}
+          paddingLeft={35}
+          paddingRight={35}
+          paddingBottom={20}
+          marginTop={35}
+          background={pallete.white}
+          className="w-full min-h-min"
+          {...undefined}
+          {...undefined}
+        >
+          <Heading
+            size={500}
+            fontSize="1rem"
+            lineHeight="1.5rem"
+            fontWeight="600"
+            textAlign="center"
+            color={pallete.neutral}
           >
-            <Heading
-              size={500}
-              fontSize="1rem"
-              lineHeight="1.5rem"
-              fontWeight="600"
-              textAlign="center"
-              color={pallete.neutral}
-            >
-              Please verify your email
-            </Heading>
-            <Paragraph
-              size={300}
-              fontWeight="400"
-              fontSize="0.875rem"
-              lineHeight="1.25rem"
-              color={pallete.textGrey}
-              marginTop={minorScale(4)}
-              textAlign="center"
-            >
-              We just sent a verification code to{" "}
-              <Text fontWeight="700">{email}.</Text> Please enter the code below
-              to verify your account.
-            </Paragraph>
-            <Pane width="50%">
-              <FormInput
-                label={null}
-                labelSecondary={null}
-                name="code"
-                onChange={handleChange}
-                color={pallete.blackDisable}
-                textAlign="center"
-                placeholder="XXX-XXX"
-                maxlength="6"
-              />
-            </Pane>
-          </Pane>
-          <Pane
-            borderLeft="default"
-            borderRight="default"
-            borderBottom="default"
-            background={pallete.white}
-            paddingTop={minorScale(4)}
-            paddingBottom={minorScale(4)}
-            paddingX={minorScale(10)}
-            className="w-full flex flex-col sm:flex sm:flex-row sm:justify-evenly"
+            Please verify your email
+          </Heading>
+          <Paragraph
+            size={300}
+            fontWeight="400"
+            fontSize="0.875rem"
+            lineHeight="1.25rem"
+            color={pallete.textGrey}
+            marginTop={minorScale(4)}
+            textAlign="center"
           >
-            <FormButton
-              onClick={handleResend}
-              text={"Resend email"}
-              iconBefore={undefined}
-              appereance="default"
-              color={pallete.secondaryButton}
-              intent="none"
-              fontWeight="600"
-            />
-            <FormButton
-              onClick={() => {}}
-              type="submit"
-              text={"Confirm Code"}
-              iconBefore={undefined}
-              appereance="greenButton"
-              isLoading={status === "loading" ? true : false}
-              disabled={status === "loading" ? true : false}
+            We just sent a verification code to{" "}
+            <Text fontWeight="700">{email}.</Text> Please enter the code below
+            to verify your account.
+          </Paragraph>
+          <Pane width="50%">
+            <FormInput
+              label={null}
+              labelSecondary={null}
+              name="code"
+              onChange={handleChange}
+              // color={pallete.blackDisable}
+              textAlign="center"
+              placeholder="XXX-XXX"
+              maxlength="6"
             />
           </Pane>
-        </form>
+        </Pane>
+        <Pane
+          borderLeft="default"
+          borderRight="default"
+          borderBottom="default"
+          background={pallete.white}
+          paddingTop={minorScale(4)}
+          paddingBottom={minorScale(4)}
+          paddingX={minorScale(10)}
+          className="w-full flex flex-col sm:flex sm:flex-row sm:justify-evenly"
+        >
+          <FormButton
+            onClick={handleResend}
+            text={"Resend email"}
+            iconBefore={undefined}
+            appereance="default"
+            color={pallete.secondaryButton}
+            intent="none"
+            fontWeight="600"
+          />
+          <FormButton
+            onClick={handleConfirmation}
+            type="submit"
+            text={"Confirm Code"}
+            iconBefore={undefined}
+            appereance="greenButton"
+          />
+        </Pane>
+
         <FormButton
           onClick={() => {
             AuthService.logout();
