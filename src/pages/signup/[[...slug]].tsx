@@ -89,6 +89,8 @@ const SignupPage: NextPage = (props) => {
   };
   useEffect(() => {
     loadUserIfSaved();
+  }, []);
+  useEffect(() => {
     setInputs({
       ...inputs,
       team_invite: router.query.slug?.[0] ?? null,
