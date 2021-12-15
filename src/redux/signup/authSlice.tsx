@@ -43,7 +43,6 @@ export const User = createAsyncThunk(
       const response = await userService.getUser(authHeader);
       thunkApi.dispatch(setStatus("idle"));
       thunkApi.dispatch(setUser(response));
-      toaster.success(response?.first_name + "user updated information stored");
       return response;
     } catch (error: Error | AxiosError | any) {
       const message = (error as AxiosError)?.response?.data?.message;

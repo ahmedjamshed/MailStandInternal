@@ -76,7 +76,6 @@ const SignupPage: NextPage = (props) => {
       } as BasicAuthHeader;
       try {
         const response = await dispatch(User(accessToken)).unwrap();
-        toaster.notify(response?.first_name);
         if (!verifiedEmail) {
           router.push("/verify");
           dispatch(setStatus("idle"));
@@ -119,11 +118,10 @@ const SignupPage: NextPage = (props) => {
     if (!error) {
       try {
         const response = await dispatch(signupUser(inputs)).unwrap();
-        if (!verifiedEmail && email) {
-          router.push("/verify");
-          dispatch(setStatus("idle"));
-          dispatch(resetResponseError());
-        }
+
+        router.push("/verify");
+        dispatch(setStatus("idle"));
+        dispatch(resetResponseError());
       } catch (err) {
         console.log(err);
       }
