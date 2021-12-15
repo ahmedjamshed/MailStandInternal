@@ -26,6 +26,7 @@ import {
   resetResponseError,
   setStatus,
   User,
+  resetEmail,
 } from "../../redux/signup/authSlice";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { InfoSignIcon } from "evergreen-ui";
@@ -53,8 +54,8 @@ const SignupPage: NextPage = (props) => {
     password: "",
     timezone: timezone,
     agency_mode: checked.yes,
-    team_invite: "",
-    referred_by: "",
+    team_invite: null,
+    referred_by: null,
   });
   let schema = yup.object().shape({
     first_name: yup.string().required().min(3),
@@ -67,20 +68,27 @@ const SignupPage: NextPage = (props) => {
     team_invite: yup.string().nullable(),
     referred_by: yup.string().nullable(),
   });
-  useEffect(() => {
+  const loadUserIfSaved = async () => {
     if (authToken()?.api_key) {
       const accessToken = {
         username: authToken()?.api_key,
         password: "",
       } as BasicAuthHeader;
-      dispatch(User(accessToken)).then(() => {
+      try {
+        const response = await dispatch(User(accessToken)).unwrap();
+        toaster.notify(response?.first_name);
         if (!verifiedEmail) {
           router.push("/verify");
           dispatch(setStatus("idle"));
           dispatch(resetResponseError());
         }
-      });
+      } catch (error) {
+        toaster.danger("something went wrong");
+      }
     }
+  };
+  useEffect(() => {
+    loadUserIfSaved();
     setInputs({
       ...inputs,
       team_invite: router.query.slug?.[0] ?? null,
@@ -104,17 +112,20 @@ const SignupPage: NextPage = (props) => {
     await schema.validate(inputs).catch(function (err) {
       console.log("inside", err);
       error = true;
-      toaster.danger(err.errors[0]);
+      toaster.danger(err.errors[0].replaceAll("_", " "));
     });
     if (!error) {
-      dispatch(signupUser(inputs)).then(() => {
-        console.log("after dispatch");
-        if (!verifiedEmail) {
+      try {
+        const response = await dispatch(signupUser(inputs)).unwrap();
+        if (!verifiedEmail && email) {
           router.push("/verify");
           dispatch(setStatus("idle"));
           dispatch(resetResponseError());
         }
-      });
+      } catch (err) {
+        console.log(err);
+        toaster.danger("somthing went wrong");
+      }
     }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
@@ -152,7 +163,6 @@ const SignupPage: NextPage = (props) => {
           marginTop={minorScale(8)}
           background={pallete.white}
           className="w-full min-h-min"
-          {...undefined}
         >
           <Pane>
             <Heading size={700} fontSize="1.25rem" fontWeight="bold">

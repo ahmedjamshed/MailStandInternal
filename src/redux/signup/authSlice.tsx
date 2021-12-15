@@ -18,12 +18,10 @@ export const signupUser = createAsyncThunk(
     try {
       const response = await Authservice.register(user);
       thunkApi.dispatch(authSlice.actions.setStatus("idle"));
-
       toaster.success(response);
       return response;
     } catch (error: Error | AxiosError | any) {
       const errorType = (error as AxiosError)?.response?.data?.error;
-
       const message = (error as AxiosError)?.response?.data?.message;
       if (errorType === "Failed Validation") {
         toaster.danger(message);
@@ -31,7 +29,8 @@ export const signupUser = createAsyncThunk(
         console.log(message);
       }
       thunkApi.dispatch(authSlice.actions.setStatus("failed"));
-      return message;
+      // return message;
+      throw new Error(message);
     }
     // The value we return becomes the `fulfilled` action payload
   }
@@ -44,7 +43,7 @@ export const User = createAsyncThunk(
       const response = await userService.getUser(authHeader);
       thunkApi.dispatch(setStatus("idle"));
       thunkApi.dispatch(setUser(response));
-      toaster.success(response?.first_name);
+      toaster.success(response?.first_name + "user updated information stored");
       return response;
     } catch (error: Error | AxiosError | any) {
       const message = (error as AxiosError)?.response?.data?.message;
@@ -63,12 +62,12 @@ export const VerifyUser = createAsyncThunk(
     try {
       const response = await userService.verifyUser(code);
       thunkApi.dispatch(authSlice.actions.setStatus("idle"));
-      toaster.success(response);
+      toaster.success("Resend success");
       return response;
     } catch (error: Error | AxiosError | any) {
       const message = (error as AxiosError)?.response?.data?.message;
       thunkApi.dispatch(authSlice.actions.setStatus("failed"));
-      toaster.danger(message.toString().length);
+      toaster.danger(message.toString());
       return message;
     }
     // The value we return becomes the `fulfilled` action payload
@@ -77,7 +76,6 @@ export const VerifyUser = createAsyncThunk(
 export const ResendVerification = createAsyncThunk(
   "user/resendVerification",
   async ({}, thunkApi) => {
-    console.log("called");
     try {
       const response = await userService.resendVerification();
       thunkApi.dispatch(authSlice.actions.setStatus("idle"));

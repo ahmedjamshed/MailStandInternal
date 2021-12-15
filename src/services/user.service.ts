@@ -1,12 +1,13 @@
 import { BasicAuthHeader, VerificationCode } from "./../utils/types";
 import axios from "axios";
 import authToken from "./token";
+import { API_URL } from "../config/constants";
 
-const API_URL = "https://api-dev.mailstand.com/users/";
+const URL = API_URL + "users/";
 
 const getUser = (AuthToken: BasicAuthHeader) => {
   return axios
-    .get(API_URL, {
+    .get(URL, {
       auth: AuthToken,
     })
     .then((response) => {
@@ -20,7 +21,7 @@ const verifyUser = (code: VerificationCode) => {
   } as BasicAuthHeader;
 
   return axios
-    .post(API_URL + "verify", code, {
+    .post(URL + "verify", code, {
       auth: accessToken,
     })
     .then((response) => {
@@ -34,7 +35,7 @@ const resendVerification = () => {
   } as BasicAuthHeader;
 
   return axios
-    .get(API_URL + "verify/resend", {
+    .get(URL + "verify/resend", {
       auth: accessToken,
     })
     .then((response) => {

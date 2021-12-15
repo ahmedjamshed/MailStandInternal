@@ -39,7 +39,6 @@ const VerifyPage: NextPage = () => {
   };
   const handleConfirmation = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("in confirmation");
     if (code) {
       const verificationCode = {
         code: code,
