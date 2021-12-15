@@ -2,7 +2,7 @@ import { BasicAuthHeader, VerificationCode } from "./../utils/types";
 import axios from "axios";
 import authToken from "./token";
 
-const API_URL = "http://api-dev.mailstand.com/users/";
+const API_URL = "https://api-dev.mailstand.com/users/";
 
 const getUser = (AuthToken: BasicAuthHeader) => {
   return axios

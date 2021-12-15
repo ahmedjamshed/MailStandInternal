@@ -34,9 +34,9 @@ export default {
           _hover: {
             backgroundColor: pallete.blackHover,
           },
-          _focus: {
-            boxShadow: "0 0 0 2px lightcoral",
-          },
+          // _focus: {
+          //   boxShadow: "0 0 0 2px lightcoral",
+          // },
         },
         greenButton: {
           color: "white",

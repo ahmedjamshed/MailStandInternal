@@ -68,6 +68,19 @@ const SignupPage: NextPage = (props) => {
     referred_by: yup.string().nullable(),
   });
   useEffect(() => {
+    if (authToken()?.api_key) {
+      const accessToken = {
+        username: authToken()?.api_key,
+        password: "",
+      } as BasicAuthHeader;
+      dispatch(User(accessToken)).then(() => {
+        if (!verifiedEmail) {
+          router.push("/verify");
+          dispatch(setStatus("idle"));
+          dispatch(resetResponseError());
+        }
+      });
+    }
     setInputs({
       ...inputs,
       team_invite: router.query.slug?.[0] ?? null,
@@ -95,12 +108,8 @@ const SignupPage: NextPage = (props) => {
     });
     if (!error) {
       dispatch(signupUser(inputs)).then(() => {
-        if (
-          api_key &&
-          verifiedEmail === false &&
-          !responseError &&
-          status === "idle"
-        ) {
+        console.log("after dispatch");
+        if (!verifiedEmail) {
           router.push("/verify");
           dispatch(setStatus("idle"));
           dispatch(resetResponseError());
@@ -233,8 +242,7 @@ const SignupPage: NextPage = (props) => {
               </Text>
               <Tooltip content="Agency mode allows you to separate your clients into completely separate environments/sections. This will allow you to have one dashboard for your clients separate contacts, campaigns and settings and for full data safety.">
                 <InfoSignIcon
-                  width="13px"
-                  height="13px"
+                  size={13}
                   color="secondaryButton"
                   marginLeft={minorScale(2)}
                 />

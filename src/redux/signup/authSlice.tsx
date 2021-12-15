@@ -93,7 +93,7 @@ export const ResendVerification = createAsyncThunk(
 );
 
 export interface Auth {
-  api_key: string;
+  api_key: string | null;
   email: string | null;
   verifiedEmail: boolean;
   agencyMode: boolean;
@@ -152,19 +152,29 @@ export const authSlice = createSlice({
         if (state.status === "failed") {
           state.status = "failed";
           state.responseError = action.payload;
+          state.email = null;
+          state.api_key = null;
+          state.verifiedEmail = false;
+          state.agencyMode = false;
         } else {
           state.status = "idle";
           state.responseError = null;
-          state.api_key += action.payload;
+          state.api_key = action.payload;
         }
       })
       .addCase(User.fulfilled, (state, action) => {
         if (state.status === "failed") {
           state.status = "failed";
           state.responseError = action.payload;
+          state.email = null;
+          state.api_key = null;
+          state.verifiedEmail = false;
+          state.agencyMode = false;
         } else {
           state.status = "idle";
           state.responseError = null;
+          state.api_key = action.payload?.api_key;
+          state.email = action.payload?.email;
           state.verifiedEmail = action.payload?.views?.verified_email;
           state.agencyMode = action.payload?.views?.agency_mode;
         }
@@ -173,6 +183,7 @@ export const authSlice = createSlice({
         if (state.status === "failed") {
           state.status = "failed";
           state.responseError = action.payload;
+          state.verifiedEmail = false;
         } else {
           state.status = "idle";
           state.responseError = null;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { TeammateUser, VerificationCode } from "./../utils/types";
 
-const API_URL = "http://api-dev.mailstand.com/";
+const API_URL = "https://api-dev.mailstand.com/";
 
 const register = (user: TeammateUser) => {
   return axios.post(API_URL + "users", user).then((response) => {
