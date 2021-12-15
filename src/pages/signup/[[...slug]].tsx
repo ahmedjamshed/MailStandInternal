@@ -124,7 +124,6 @@ const SignupPage: NextPage = (props) => {
         }
       } catch (err) {
         console.log(err);
-        toaster.danger("somthing went wrong");
       }
     }
   };
