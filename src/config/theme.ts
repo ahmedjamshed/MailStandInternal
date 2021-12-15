@@ -5,6 +5,7 @@ import pallete from "./pallete";
 export default {
   ...defaultTheme,
   fontWeights: {
+    700: "700px",
     600: "600px",
     400: "400px",
     500: "500px",
@@ -23,6 +24,7 @@ export default {
     Button: {
       ...defaultTheme.components.Button,
       appearances: {
+        ...defaultTheme.components.Button.appearances,
         superdanger: {
           color: "white",
           paddingX: 12,
@@ -30,7 +32,20 @@ export default {
           borderRadius: 5,
           backgroundColor: pallete.neutral,
           _hover: {
-            backgroundColor: "gray",
+            backgroundColor: pallete.blackHover,
+          },
+          _focus: {
+            boxShadow: "0 0 0 2px lightcoral",
+          },
+        },
+        greenButton: {
+          color: "white",
+          paddingX: 12,
+          paddingY: 8,
+          borderRadius: 5,
+          backgroundColor: pallete.greenNeutral,
+          _hover: {
+            backgroundColor: pallete.greenHover,
           },
           _focus: {
             boxShadow: "0 0 0 2px lightcoral",

@@ -36,6 +36,7 @@ module.exports = {
         textGrey: "#5A5F68",
       },
       width: {
+        106: "23.313rem",
         128: "32rem",
         146: "35.625rem",
       },

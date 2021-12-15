@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+// @ts-nocheck
+import React, { useRef, useState } from "react";
 import { Heading, minorScale, Pane, TextInput, useTheme } from "evergreen-ui";
 import Link from "next/link";
 import pallete from "../../config/pallete";
 interface FormInputProps {
-  label: string;
+  label: string | null;
   labelSecondary: string | null;
   name: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
+  [x: string]: any;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -14,9 +16,11 @@ const FormInput: React.FC<FormInputProps> = ({
   labelSecondary,
   name,
   onChange,
+  ...rest
 }) => {
+  const ref = React.useRef<HTMLInputElement | null>(null);
   return (
-    <Pane display="flex" flexDirection="column" marginTop={minorScale(3)}>
+    <Pane display="flex" flexDirection="column" marginTop={minorScale(2)}>
       {label && (
         <div className="flex flex-row flex-wrap justify-between items-center align-middle">
           <Heading
@@ -38,12 +42,22 @@ const FormInput: React.FC<FormInputProps> = ({
         </div>
       )}
       <TextInput
+        ref={ref}
         backgroundColor={pallete.inputBackgound}
         width={"100%"}
         className="my-2 h-8"
-        {...undefined}
         onChange={onChange}
         name={name}
+        fontWeight="400"
+        fontSize="0.875rem"
+        lineHeight="1.25rem"
+        onBlur={() => {
+          ref.current?.style.backgroundColor = pallete.inputBackgound;
+        }}
+        onFocus={() => {
+          ref.current?.style.backgroundColor = pallete.white;
+        }}
+        {...rest}
       />
     </Pane>
   );

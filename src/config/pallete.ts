@@ -2,6 +2,7 @@ export default {
   white: "#FFFFFF",
   neutral: "#303139",
   greyNeutral: "#D7D8DC",
+  blackHover: "#1A1B21",
   secondaryButton: "#1A1B21",
   offWhiteHover: "#FAFBFC",
   blackDisable: "#B4B4B4",

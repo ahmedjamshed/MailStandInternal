@@ -1,51 +1,30 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { AppState } from "../../app/store";
-import Authservice from "../../services/user.service";
-import { TeammateUser } from "../../utils/types";
+import userService from "../../services/user.service";
+import { BasicAuthHeader, TeammateUser } from "../../utils/types";
 import { toaster } from "evergreen-ui";
-
-export const signupUser = createAsyncThunk(
-  "user/signup",
-  async (user: TeammateUser) => {
-    try {
-      const response = await Authservice.register(user);
-      toaster.success(response.data['api_key'])
-      return response.data;
-    } catch (error: Error | AxiosError | any) {
-      const message = (error as AxiosError)?.response?.data?.message;
-      toaster.danger(message)
-      return message;
-    }
-    // The value we return becomes the `fulfilled` action payload
-  }
-);
+import { setStatus } from "./authSlice";
+import { useAppDispatch } from "../../app/hooks";
 
 export interface User {
-  api_key: string;
-  status: "idle" | "loading" | "failed";
+  user: any | null;
 }
 
 const initialState: User = {
-  api_key: "",
-  status: "idle",
+  user: null,
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(signupUser.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(signupUser.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.api_key += action.payload;
-      });
+  reducers: {
+    setUser: (state, action: PayloadAction<string>) => {
+      state.user = action.payload;
+    },
   },
 });
+export const { setUser } = userSlice.actions;
 
 export const selectUser = (state: AppState) => state.user;
 

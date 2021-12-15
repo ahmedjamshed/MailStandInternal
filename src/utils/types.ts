@@ -25,8 +25,20 @@ export type TeammateUser = {
   team_invite: String | null;
   referred_by: String | null;
 };
-
+export type LoginInputs = {
+  email: string;
+  password: string;
+};
 export type agency_mode = {
   yes: boolean;
   No: boolean;
+};
+
+export type BasicAuthHeader = {
+  username: string;
+  password: string;
+};
+
+export type VerificationCode = {
+  code: string;
 };

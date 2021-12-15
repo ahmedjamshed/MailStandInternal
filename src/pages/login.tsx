@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Pane, majorScale } from "evergreen-ui";
 import type { NextPage } from "next";
 import Head from "next/head";
 import FormInput from "../components/form/FormInput";
 import FormButton from "../components/form/FormButton";
 import Container from "../components/layout/Container";
-import { Paragraph } from "../utils/types";
+import { LoginInputs, Paragraph } from "../utils/types";
 import AppParagraph from "../components/Typography/AppParagraph";
 import Link from "next/link";
 import Image from "next/image";
 
 const LoginPage: NextPage = () => {
+  const [inputs, setInputs] = useState<LoginInputs>({
+    email: "",
+    password: "",
+  });
   return (
     <Container>
       <Head>
@@ -55,6 +59,7 @@ const LoginPage: NextPage = () => {
             labelSecondary="Forgot Password?"
           />
           <FormButton
+            appereance="superdanger"
             text={"Sign in"}
             onClick={() => {}}
             iconBefore={undefined}
