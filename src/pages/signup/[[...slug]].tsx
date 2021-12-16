@@ -97,8 +97,8 @@ const SignupPage: NextPage = (props) => {
         password: "",
       } as BasicAuthHeader;
       try {
-        const response = await dispatch(User(accessToken)).unwrap();
-        if (!verifiedEmail) {
+        const user = await dispatch(User(accessToken)).unwrap();
+        if (!user.views?.verified_email) {
           router.push("/verify");
           dispatch(setStatus("idle"));
           dispatch(resetResponseError());
@@ -130,7 +130,7 @@ const SignupPage: NextPage = (props) => {
     // dispatch(User(accessToken));
     if (!error) {
       try {
-        const response = await dispatch(signupUser(inputs)).unwrap();
+        await dispatch(signupUser(inputs)).unwrap();
 
         router.push("/verify");
         dispatch(setStatus("idle"));

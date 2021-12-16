@@ -74,8 +74,8 @@ const LoginPage: NextPage = () => {
         password: "",
       } as BasicAuthHeader;
       try {
-        await dispatch(User(accessToken)).unwrap();
-        if (!verifiedEmail) {
+        const user = await dispatch(User(accessToken)).unwrap();
+        if (!user.views?.verified_email) {
           router.push("/verify");
         }
       } catch (error) {
