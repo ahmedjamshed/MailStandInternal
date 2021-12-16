@@ -66,7 +66,7 @@ const SignupPage: NextPage = (props) => {
     last_name: yup.string().required().min(3),
     company_name: yup.string().required().min(3),
     email: yup.string().required().email(),
-    password: yup.string().required().min(6),
+    password: yup.string().required().min(7),
     timezone: yup.string().required().min(3),
     agency_mode: yup.boolean().required(),
     team_invite: yup.string().nullable(),

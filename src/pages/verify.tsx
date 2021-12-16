@@ -50,7 +50,7 @@ const VerifyPage: NextPage = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const value = e?.target?.value;
-    console.log(value);
+    // console.log(value);
     setCode(value);
 
     setErrors({

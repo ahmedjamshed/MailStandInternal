@@ -49,7 +49,7 @@ const LoginPage: NextPage = () => {
   };
   let schema = yup.object().shape({
     email: yup.string().required().email(),
-    password: yup.string().required().min(6),
+    password: yup.string().required().min(7),
   });
   const validationErrors = async () => {
     setErrors({});
@@ -95,9 +95,11 @@ const LoginPage: NextPage = () => {
             username: response,
             password: "",
           } as BasicAuthHeader;
-          await dispatch(User(accessToken)).unwrap();
-          if (!verifiedEmail) {
+          const user = await dispatch(User(accessToken)).unwrap();
+          if (!user.views?.verified_email) {
             router.push("/verify");
+          } else {
+            router.push("/");
           }
         }
       } catch (err: Error | any) {
