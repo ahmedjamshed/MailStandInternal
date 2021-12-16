@@ -9,6 +9,7 @@ import {
   majorScale,
   minorScale,
   Tooltip,
+  Overlay,
 } from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
@@ -46,6 +47,8 @@ const SignupPage: NextPage = (props) => {
     yes: true,
     No: false,
   });
+  const [errors, setErrors] = useState<any>({});
+
   const [inputs, setInputs] = useState<TeammateUser | any>({
     first_name: "",
     last_name: "",
@@ -68,6 +71,22 @@ const SignupPage: NextPage = (props) => {
     team_invite: yup.string().nullable(),
     referred_by: yup.string().nullable(),
   });
+  const validationErrors = async () => {
+    setErrors({});
+    let validationError = false;
+    await schema
+      .validate(inputs, { abortEarly: false, strict: false })
+      .catch(function (err) {
+        validationError = true;
+        let errV: any = {};
+        err.errors.forEach((err: any, index: number) => {
+          errV[err.toString().split(" ")[0]] = err.replaceAll("_", " ");
+        });
+        setErrors(errV);
+      });
+
+    return validationError;
+  };
   const loadUserIfSaved = async () => {
     if (authToken()?.api_key) {
       const accessToken = {
@@ -86,6 +105,7 @@ const SignupPage: NextPage = (props) => {
       }
     }
   };
+
   useEffect(() => {
     loadUserIfSaved();
   }, []);
@@ -95,26 +115,16 @@ const SignupPage: NextPage = (props) => {
       team_invite: router.query.slug?.[0] ?? null,
       referred_by: router.query["code"] ?? null,
     });
-    // window.addEventListener("keyup", handleSubmit);
-    // return () => {
-    //   window.removeEventListener("keyup", handleSubmit);
-    // };
   }, [router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const error = await validationErrors();
     // const accessToken = {
     //   username: authToken()?.api_key,
     //   password: "",
     // } as BasicAuthHeader;
     // dispatch(User(accessToken));
-
-    let error = false;
-    await schema.validate(inputs).catch(function (err) {
-      console.log("inside", err);
-      error = true;
-      toaster.danger(err.errors[0].replaceAll("_", " "));
-    });
     if (!error) {
       try {
         const response = await dispatch(signupUser(inputs)).unwrap();
@@ -131,6 +141,11 @@ const SignupPage: NextPage = (props) => {
     const name = e?.target?.name;
     const value = e?.target?.value;
     setInputs({ ...inputs, [name]: value });
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
+    setInputs({ ...inputs, [name]: value });
   };
   return (
     <Container>
@@ -143,7 +158,7 @@ const SignupPage: NextPage = (props) => {
         flexDirection="column"
         alignItems="center"
         marginTop={majorScale(4)}
-        className="sm:p-1 md:p-0  sm:w-full md:w-128 lg:w-128;"
+        className="sm:w-full md:w-128 lg:w-128;"
       >
         <Image
           src="/images/logo_mailstand.svg"
@@ -203,12 +218,14 @@ const SignupPage: NextPage = (props) => {
                 onChange={handleChange}
                 label="First name"
                 labelSecondary={null}
+                error={errors?.first_name}
               />
               <FormInput
                 name="last_name"
                 onChange={handleChange}
                 label="Last name"
                 labelSecondary={null}
+                error={errors?.last_name}
               />
             </Pane>
             <FormInput
@@ -216,12 +233,14 @@ const SignupPage: NextPage = (props) => {
               onChange={handleChange}
               label="Company name"
               labelSecondary={null}
+              error={errors?.company_name}
             />
             <FormInput
               name="email"
               onChange={handleChange}
               label="Email"
               labelSecondary={null}
+              error={errors?.email}
             />
             <FormInput
               name="password"
@@ -229,6 +248,7 @@ const SignupPage: NextPage = (props) => {
               label="Create password"
               labelSecondary={null}
               type="password"
+              error={errors?.password}
             />
 
             <Pane
@@ -287,7 +307,7 @@ const SignupPage: NextPage = (props) => {
               onClick={() => {}}
               text={"Sign up"}
               iconBefore={undefined}
-              appereance="superdanger"
+              appereance="primary"
               type="submit"
               width="100%"
               isLoading={status === "loading" ? true : false}
@@ -348,6 +368,11 @@ const SignupPage: NextPage = (props) => {
           </Pane>
         </Pane>
       </Pane>
+      <Overlay
+        isShown={status === "loading" ? true : false}
+        children={undefined}
+        shouldCloseOnClick={false}
+      ></Overlay>
     </Container>
   );
 };

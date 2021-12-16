@@ -32,7 +32,7 @@ const FormButton: React.FC<FormInputProps> = ({
 };
 
 FormButton.defaultProps = {
-  appereance: "superdanger",
+  appereance: "primary",
 };
 
 export default FormButton;

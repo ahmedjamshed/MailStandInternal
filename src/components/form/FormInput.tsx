@@ -1,6 +1,13 @@
 // @ts-nocheck
 import React, { useRef, useState } from "react";
-import { Heading, minorScale, Pane, TextInput, useTheme } from "evergreen-ui";
+import {
+  Heading,
+  minorScale,
+  Pane,
+  TextInput,
+  TextInputField,
+  useTheme,
+} from "evergreen-ui";
 import Link from "next/link";
 import pallete from "../../config/pallete";
 interface FormInputProps {
@@ -9,6 +16,7 @@ interface FormInputProps {
   name: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
   [x: string]: any;
+  [error]: string | null | any;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -16,6 +24,7 @@ const FormInput: React.FC<FormInputProps> = ({
   labelSecondary,
   name,
   onChange,
+  error,
   ...rest
 }) => {
   const ref = React.useRef<HTMLInputElement | null>(null);
@@ -35,13 +44,14 @@ const FormInput: React.FC<FormInputProps> = ({
           {labelSecondary && (
             <Link href="/forgot">
               <a className="ml-0 sm:ml-1  text-xs text-B-500 cursor-pointer">
-                Forgot password
+                {labelSecondary}
               </a>
             </Link>
           )}
         </div>
       )}
       <TextInput
+        label={null}
         ref={ref}
         backgroundColor={pallete.inputBackgound}
         width={"100%"}
@@ -59,6 +69,11 @@ const FormInput: React.FC<FormInputProps> = ({
         }}
         {...rest}
       />
+      {error && (
+        <span class="flex items-center text-justify font-medium tracking-wide text-red-500 text-xs  ml-1">
+          *{" " + error}!
+        </span>
+      )}
     </Pane>
   );
 };

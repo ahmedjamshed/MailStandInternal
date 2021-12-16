@@ -39,7 +39,7 @@ const IndexPage: NextPage = () => {
           justifyContent="center"
           alignItems="center"
           marginTop={majorScale(8)}
-          className="sm:p-1 md:p-0  sm:w-full md:w-146 lg:w-146"
+          className="sm:w-full md:w-146 lg:w-146"
         >
           <Image
             src="/images/logo_mailstand.svg"
@@ -95,6 +95,7 @@ const IndexPage: NextPage = () => {
             </Pane>
             <Pane textAlign={"center"} marginTop={majorScale(3)}>
               <FormButton
+                appereance="primary"
                 onClick={() => {}}
                 text="Add workspace"
                 iconBefore={AddIcon}

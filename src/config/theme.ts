@@ -25,7 +25,7 @@ export default {
       ...defaultTheme.components.Button,
       appearances: {
         ...defaultTheme.components.Button.appearances,
-        superdanger: {
+        primary: {
           color: "white",
           paddingX: 12,
           paddingY: 8,

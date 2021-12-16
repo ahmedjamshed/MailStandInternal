@@ -8,6 +8,7 @@ import {
   Text,
   minorScale,
   toaster,
+  Overlay,
 } from "evergreen-ui";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -20,7 +21,12 @@ import pallete from "../config/pallete";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
   ResendVerification,
+  resetApiKey,
+  resetEmail,
+  resetEmailVerification,
+  resetResponseError,
   selectAuth,
+  setStatus,
   verifyEmail,
   VerifyUser,
 } from "../redux/signup/authSlice";
@@ -34,17 +40,22 @@ const VerifyPage: NextPage = () => {
   const { email, status } = useAppSelector(selectAuth);
 
   const [code, setCode] = useState("");
+  const [errors, setErrors] = useState<any>({});
+  // validation schema
+  let schema = yup.object().shape({
+    code: yup.string().required().max(6).min(6),
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const value = e?.target?.value;
     setCode(value);
+    setErrors({
+      ...errors,
+      ["code"]: "",
+    });
   };
   const handleConfirmation = async () => {
-    let error = false;
-    await schema.validate({ code }).catch(function (err) {
-      error = true;
-      toaster.danger(err.errors[0].replaceAll("_", " "));
-    });
+    const error = await validationErrors();
     if (code && !error) {
       const verificationCode = {
         code: code,
@@ -55,12 +66,26 @@ const VerifyPage: NextPage = () => {
   const handleResend = () => {
     dispatch(ResendVerification());
   };
-  let schema = yup.object().shape({
-    code: yup.string().required().max(6).min(6),
-  });
-  // if (!email) {
-  //   return <></>;
-  // }
+
+  const validationErrors = async () => {
+    setErrors({});
+    let validationError = false;
+    await schema
+      .validate({ code }, { abortEarly: false, strict: false })
+      .catch(function (err) {
+        validationError = true;
+        let errV: any = {};
+        err.errors.forEach((err: any, index: number) => {
+          errV[err.toString().split(" ")[0]] = err.replaceAll("_", " ");
+        });
+        setErrors(errV);
+      });
+
+    return validationError;
+  };
+  if (!email) {
+    return <></>;
+  }
 
   return (
     <Container>
@@ -126,9 +151,14 @@ const VerifyPage: NextPage = () => {
               // color={pallete.blackDisable}
               textAlign="center"
               placeholder="XXX-XXX"
-              maxlength="6"
+              maxLength="6"
             />
           </Pane>
+          {errors?.code && (
+            <span className="flex items-center text-justify font-medium tracking-wide text-red-500 text-xs  ml-1">
+              *{" " + errors?.code}!
+            </span>
+          )}
         </Pane>
         <Pane
           borderLeft="default"
@@ -159,9 +189,18 @@ const VerifyPage: NextPage = () => {
         </Pane>
 
         <FormButton
-          onClick={() => {
-            AuthService.logout();
-            router.push("/signup");
+          onClick={async () => {
+            try {
+              await Promise.all([
+                dispatch(resetEmail()),
+                dispatch(resetEmailVerification()),
+                dispatch(setStatus("idle")),
+                dispatch(resetResponseError()),
+                dispatch(resetApiKey()),
+              ]);
+              AuthService.logout();
+              router.push("/login");
+            } catch (error) {}
           }}
           text={"Sign out"}
           iconBefore={undefined}
@@ -169,6 +208,11 @@ const VerifyPage: NextPage = () => {
           color={pallete.textGrey}
         />
       </Pane>
+      <Overlay
+        isShown={status === "loading" ? true : false}
+        children={undefined}
+        shouldCloseOnClick={false}
+      ></Overlay>
     </Container>
   );
 };

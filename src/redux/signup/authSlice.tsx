@@ -4,6 +4,7 @@ import { AppState } from "../../app/store";
 import Authservice from "../../services/auth.service";
 import {
   BasicAuthHeader,
+  LoginInputs,
   TeammateUser,
   VerificationCode,
 } from "../../utils/types";
@@ -25,7 +26,7 @@ export const signupUser = createAsyncThunk(
       if (errorType === "Failed Validation") {
         toaster.danger(message);
       } else {
-        console.log(message);
+        // console.log(message);
       }
       thunkApi.dispatch(authSlice.actions.setStatus("failed"));
       thunkApi.dispatch(authSlice.actions.resetEmail());
@@ -36,18 +37,39 @@ export const signupUser = createAsyncThunk(
   }
 );
 
+export const loginUser = createAsyncThunk(
+  "auth/signin",
+  async (user: LoginInputs | any, thunkApi) => {
+    // thunkApi.dispatch(authSlice.actions.addEmail(user.email));
+    try {
+      const response = await Authservice.login(user);
+      // thunkApi.dispatch(authSlice.actions.setStatus("idle"));
+      return response;
+    } catch (error: Error | AxiosError | any) {
+      const errorType = (error as AxiosError)?.response?.data?.error;
+      const message = (error as AxiosError)?.response?.data?.message;
+      // thunkApi.dispatch(authSlice.actions.setStatus("failed"));
+      // thunkApi.dispatch(authSlice.actions.resetEmail());
+      // return message;
+      throw new Error(message);
+    }
+    // The value we return becomes the `fulfilled` action payload
+  }
+);
+
 export const User = createAsyncThunk(
   "user/getUser",
   async (authHeader: BasicAuthHeader, thunkApi) => {
+    // console.log(authHeader);
     try {
       const response = await userService.getUser(authHeader);
-      thunkApi.dispatch(setStatus("idle"));
-      thunkApi.dispatch(setUser(response));
+      // thunkApi.dispatch(setStatus("idle"));
+      // thunkApi.dispatch(setUser(response));
       return response;
     } catch (error: Error | AxiosError | any) {
       const message = (error as AxiosError)?.response?.data?.message;
-      thunkApi.dispatch(setStatus("failed"));
-      toaster.danger(message);
+      // thunkApi.dispatch(setStatus("failed"));
+      // toaster.danger(message);
       return message;
     }
     // The value we return becomes the `fulfilled` action payload
@@ -94,12 +116,12 @@ export interface Auth {
   email: string | null;
   verifiedEmail: boolean;
   agencyMode: boolean;
-  responseError: string | null;
+  responseError: string | null | unknown;
   status: "idle" | "loading" | "failed";
 }
 
 const initialState: Auth = {
-  api_key: "",
+  api_key: null,
   email: null,
   verifiedEmail: false,
   agencyMode: false,
@@ -132,6 +154,9 @@ export const authSlice = createSlice({
     resetResponseError: (state) => {
       state.responseError = null;
     },
+    resetApiKey: (state) => {
+      state.api_key = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -142,6 +167,9 @@ export const authSlice = createSlice({
         state.status = "loading";
       })
       .addCase(VerifyUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(loginUser.pending, (state) => {
         state.status = "loading";
       })
       .addCase(signupUser.fulfilled, (state, action) => {
@@ -160,21 +188,20 @@ export const authSlice = createSlice({
         }
       })
       .addCase(User.fulfilled, (state, action) => {
-        if (state.status === "failed") {
-          state.status = "failed";
-          state.responseError = action.payload;
-          state.email = null;
-          state.api_key = null;
-          state.verifiedEmail = false;
-          state.agencyMode = false;
-        } else {
-          state.status = "idle";
-          state.responseError = null;
-          state.api_key = action.payload?.api_key;
-          state.email = action.payload?.email;
-          state.verifiedEmail = action.payload?.views?.verified_email;
-          state.agencyMode = action.payload?.views?.agency_mode;
-        }
+        state.status = "idle";
+        state.responseError = null;
+        state.api_key = action.payload?.api_key;
+        state.email = action.payload?.email;
+        state.verifiedEmail = action.payload?.views?.verified_email;
+        state.agencyMode = action.payload?.views?.agency_mode;
+      })
+      .addCase(User.rejected, (state, action) => {
+        state.status = "failed";
+        state.responseError = action.payload;
+        state.email = null;
+        state.api_key = null;
+        state.verifiedEmail = false;
+        state.agencyMode = false;
       })
       .addCase(VerifyUser.fulfilled, (state, action) => {
         if (state.status === "failed") {
@@ -186,6 +213,22 @@ export const authSlice = createSlice({
           state.responseError = null;
           state.verifiedEmail = true;
         }
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.email = null;
+        state.verifiedEmail = false;
+        state.api_key = null;
+        state.agencyMode = false;
+        state.status = "failed";
+        state.responseError = action.payload;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.email = null;
+        state.verifiedEmail = false;
+        state.api_key = action.payload;
+        state.agencyMode = false;
+        state.responseError = null;
+        state.status = "idle";
       });
   },
 });
@@ -196,6 +239,7 @@ export const {
   resetResponseError,
   setStatus,
   verifyEmail,
+  resetApiKey,
 } = authSlice.actions;
 
 export const selectAuth = (state: AppState) => state.auth;
