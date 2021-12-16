@@ -1,1 +1,1 @@
-export const API_URL = "https://api-dev.mailstand.com/";
+export const API_URL = process.env.NEXT_API_URL;
