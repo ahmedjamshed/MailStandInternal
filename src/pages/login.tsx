@@ -9,6 +9,7 @@ import {
   toaster,
   Link as ELink,
   Overlay,
+  Spinner,
 } from "evergreen-ui";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -48,7 +49,7 @@ const LoginPage: NextPage = () => {
   };
   let schema = yup.object().shape({
     email: yup.string().required().email(),
-    password: yup.string().required().min(3),
+    password: yup.string().required().min(6),
   });
   const validationErrors = async () => {
     setErrors({});
@@ -104,6 +105,13 @@ const LoginPage: NextPage = () => {
       }
     }
   };
+  const isEnabled = yup
+    .object()
+    .shape({
+      email: yup.string().trim().required(),
+      password: yup.string().required(),
+    })
+    .isValidSync(inputs);
 
   useEffect(() => {
     loadUserIfSaved();
@@ -173,8 +181,7 @@ const LoginPage: NextPage = () => {
               marginBottom={minorScale(4)}
               type="submit"
               width="100%"
-              isLoading={status === "loading" ? true : false}
-              disabled={status === "loading" ? true : false}
+              disabled={!isEnabled}
             />
           </form>
         </Pane>
@@ -206,9 +213,17 @@ const LoginPage: NextPage = () => {
       </Pane>
       <Overlay
         isShown={status === "loading" ? true : false}
-        children={undefined}
         shouldCloseOnClick={false}
-      ></Overlay>
+      >
+        <Pane
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          height="100vh"
+        >
+          <Spinner size={50} color={pallete.white} zIndex="1" opacity="1" />
+        </Pane>
+      </Overlay>
     </Container>
   );
 };

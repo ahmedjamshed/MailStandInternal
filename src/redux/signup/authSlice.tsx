@@ -89,7 +89,8 @@ export const VerifyUser = createAsyncThunk(
       const message = (error as AxiosError)?.response?.data?.message;
       thunkApi.dispatch(authSlice.actions.setStatus("failed"));
       toaster.danger("Verification Failed");
-      return message;
+      // return message;
+      throw new Error(message);
     }
     // The value we return becomes the `fulfilled` action payload
   }

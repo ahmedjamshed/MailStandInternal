@@ -37,6 +37,10 @@ export default {
           // _focus: {
           //   boxShadow: "0 0 0 2px lightcoral",
           // },
+          _disabled: {
+            backgroundColor: pallete.blackDisable,
+            color: pallete.white,
+          },
         },
         greenButton: {
           color: "white",
@@ -50,6 +54,10 @@ export default {
           // _focus: {
           //   boxShadow: "0 0 0 2px lightcoral",
           // },
+          _disabled: {
+            backgroundColor: pallete.blackDisable,
+            color: pallete.white,
+          },
         },
       },
     },

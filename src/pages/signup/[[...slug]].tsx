@@ -10,6 +10,7 @@ import {
   minorScale,
   Tooltip,
   Overlay,
+  Spinner,
 } from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
@@ -65,7 +66,7 @@ const SignupPage: NextPage = (props) => {
     last_name: yup.string().required().min(3),
     company_name: yup.string().required().min(3),
     email: yup.string().required().email(),
-    password: yup.string().required().min(3),
+    password: yup.string().required().min(6),
     timezone: yup.string().required().min(3),
     agency_mode: yup.boolean().required(),
     team_invite: yup.string().nullable(),
@@ -80,7 +81,9 @@ const SignupPage: NextPage = (props) => {
         validationError = true;
         let errV: any = {};
         err.errors.forEach((err: any, index: number) => {
-          errV[err.toString().split(" ")[0]] = err.replaceAll("_", " ");
+          errV[err.toString().split(" ")[0]] = err
+            // .replaceAll("_", " ")
+            .replaceAll(err.toString().split(" ")[0], "it");
         });
         setErrors(errV);
       });
@@ -147,6 +150,20 @@ const SignupPage: NextPage = (props) => {
     });
     setInputs({ ...inputs, [name]: value });
   };
+  const isEnabled = yup
+    .object()
+    .shape({
+      first_name: yup.string().trim().required(),
+      last_name: yup.string().trim().required(),
+      company_name: yup.string().trim().required(),
+      email: yup.string().trim().required(),
+      password: yup.string().required(),
+      timezone: yup.string().required(),
+      agency_mode: yup.boolean().required(),
+      team_invite: yup.string().nullable(),
+      referred_by: yup.string().nullable(),
+    })
+    .isValidSync(inputs);
   return (
     <Container>
       <Head>
@@ -311,7 +328,8 @@ const SignupPage: NextPage = (props) => {
               type="submit"
               width="100%"
               isLoading={status === "loading" ? true : false}
-              disabled={status === "loading" ? true : false}
+              // disabled={status === "loading" ? true : false}
+              disabled={!isEnabled}
             />
           </form>
           <Pane
@@ -370,9 +388,17 @@ const SignupPage: NextPage = (props) => {
       </Pane>
       <Overlay
         isShown={status === "loading" ? true : false}
-        children={undefined}
         shouldCloseOnClick={false}
-      ></Overlay>
+      >
+        <Pane
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          height="100vh"
+        >
+          <Spinner size={50} color={pallete.white} zIndex="1" opacity="1" />
+        </Pane>
+      </Overlay>
     </Container>
   );
 };

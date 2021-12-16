@@ -9,6 +9,7 @@ import {
   minorScale,
   toaster,
   Overlay,
+  Spinner,
 } from "evergreen-ui";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -27,6 +28,7 @@ import {
   resetResponseError,
   selectAuth,
   setStatus,
+  User,
   verifyEmail,
   VerifyUser,
 } from "../redux/signup/authSlice";
@@ -37,18 +39,20 @@ import * as yup from "yup";
 const VerifyPage: NextPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { email, status } = useAppSelector(selectAuth);
+  const { email, status, verifiedEmail } = useAppSelector(selectAuth);
 
   const [code, setCode] = useState("");
   const [errors, setErrors] = useState<any>({});
   // validation schema
   let schema = yup.object().shape({
-    code: yup.string().required().max(6).min(6),
+    code: yup.string().required().max(7).min(7),
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const value = e?.target?.value;
+    console.log(value);
     setCode(value);
+
     setErrors({
       ...errors,
       ["code"]: "",
@@ -60,7 +64,10 @@ const VerifyPage: NextPage = () => {
       const verificationCode = {
         code: code,
       } as VerificationCode;
-      dispatch(VerifyUser(verificationCode));
+      try {
+        await dispatch(VerifyUser(verificationCode)).unwrap();
+        // await dispatch(User(accessToken)).unwrap();
+      } catch (error) {}
     }
   };
   const handleResend = () => {
@@ -83,7 +90,14 @@ const VerifyPage: NextPage = () => {
 
     return validationError;
   };
-  if (!email) {
+  const isEnabled = yup
+    .object()
+    .shape({
+      code: yup.string().trim().required(),
+    })
+    .isValidSync({ code });
+
+  if (!email && !verifiedEmail) {
     return <></>;
   }
 
@@ -151,7 +165,7 @@ const VerifyPage: NextPage = () => {
               // color={pallete.blackDisable}
               textAlign="center"
               placeholder="XXX-XXX"
-              maxLength="6"
+              maxLength="7"
             />
           </Pane>
           {errors?.code && (
@@ -185,6 +199,7 @@ const VerifyPage: NextPage = () => {
             text={"Confirm Code"}
             iconBefore={undefined}
             appereance="greenButton"
+            disabled={!isEnabled}
           />
         </Pane>
 
@@ -210,9 +225,17 @@ const VerifyPage: NextPage = () => {
       </Pane>
       <Overlay
         isShown={status === "loading" ? true : false}
-        children={undefined}
         shouldCloseOnClick={false}
-      ></Overlay>
+      >
+        <Pane
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          height="100vh"
+        >
+          <Spinner size={50} color={pallete.white} zIndex="1" opacity="1" />
+        </Pane>
+      </Overlay>
     </Container>
   );
 };
