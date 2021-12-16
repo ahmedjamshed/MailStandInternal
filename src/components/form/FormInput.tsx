@@ -70,7 +70,7 @@ const FormInput: React.FC<FormInputProps> = ({
         {...rest}
       />
       {error && (
-        <span class="flex items-center text-justify font-medium tracking-wide text-red-500 text-xs  ml-1">
+        <span className="flex items-center text-justify font-medium tracking-wide text-red-500 text-xs  ml-1">
           *{" " + error}!
         </span>
       )}
