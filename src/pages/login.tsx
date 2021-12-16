@@ -77,6 +77,8 @@ const LoginPage: NextPage = () => {
         const user = await dispatch(User(accessToken)).unwrap();
         if (!user.views?.verified_email) {
           router.push("/verify");
+        } else {
+          router.push("/");
         }
       } catch (error) {
         // toaster.danger("something went wrong");

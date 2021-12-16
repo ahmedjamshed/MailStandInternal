@@ -102,6 +102,8 @@ const SignupPage: NextPage = (props) => {
           router.push("/verify");
           dispatch(setStatus("idle"));
           dispatch(resetResponseError());
+        } else {
+          router.push("/");
         }
       } catch (error) {
         // toaster.danger("something went wrong");
