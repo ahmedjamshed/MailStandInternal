@@ -29,7 +29,6 @@ import { useRouter } from "next/router";
 import authToken from "../services/token";
 
 const LoginPage: NextPage = () => {
-  console.log(process.env.NEXT_PUBLIC_API_URL);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { api_key, status, verifiedEmail, email, responseError } =
