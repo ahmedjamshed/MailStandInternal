@@ -41,6 +41,7 @@ const ForgotPasswordPage: NextPage = () => {
             onClick={() => {}}
             text={"Send Reset Passcode"}
             iconBefore={undefined}
+            appereance="primary"
           />
         </Pane>
       </Pane>
