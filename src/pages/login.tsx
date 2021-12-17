@@ -24,7 +24,13 @@ import pallete from "../config/pallete";
 
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { loginUser, selectAuth, User } from "../redux/signup/authSlice";
+import {
+  addEmail,
+  loginUser,
+  selectAuth,
+  User,
+  verifyEmail,
+} from "../redux/signup/authSlice";
 import { useRouter } from "next/router";
 import authToken from "../services/token";
 
@@ -33,6 +39,10 @@ const LoginPage: NextPage = () => {
   const dispatch = useAppDispatch();
   const { api_key, status, verifiedEmail, email, responseError } =
     useAppSelector(selectAuth);
+
+  if (api_key && email && !verifiedEmail) {
+    router.push("/verify");
+  }
   const [inputs, setInputs] = useState<LoginInputs>({
     email: "",
     password: "",
@@ -98,6 +108,7 @@ const LoginPage: NextPage = () => {
             password: "",
           } as BasicAuthHeader;
           const user = await dispatch(User(accessToken)).unwrap();
+          // await dispatch(addEmail(user?.email));
           if (!user.views?.verified_email) {
             router.push("/verify");
           } else {
@@ -117,13 +128,10 @@ const LoginPage: NextPage = () => {
     })
     .isValidSync(inputs);
 
-  useEffect(() => {
-    loadUserIfSaved();
-  }, []);
   return (
     <Container>
       <Head>
-        <title>login</title>
+        <title>Mailstand | Login</title>
       </Head>
       <Pane
         display="flex"
@@ -228,6 +236,13 @@ const LoginPage: NextPage = () => {
           <Spinner size={50} color={pallete.white} zIndex="1" opacity="1" />
         </Pane>
       </Overlay>
+      <button
+        onClick={() => {
+          router.push("/verify");
+        }}
+      >
+        Test button
+      </button>
     </Container>
   );
 };

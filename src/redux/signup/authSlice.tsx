@@ -63,6 +63,7 @@ export const User = createAsyncThunk(
     // console.log(authHeader);
     try {
       const response = await userService.getUser(authHeader);
+      // thunkApi.dispatch(addEmail(response.views?.email));
       // thunkApi.dispatch(setStatus("idle"));
       // thunkApi.dispatch(setUser(response));
       return response;
@@ -112,6 +113,15 @@ export const ResendVerification = createAsyncThunk(
   }
 );
 
+export const Forgot = createAsyncThunk("user/forgot", async (email: string) => {
+  try {
+    const response = await Authservice.forgot(email);
+    return response;
+  } catch (error: Error | AxiosError | any) {
+    const message = (error as AxiosError)?.response?.data?.message;
+    throw new Error(message);
+  }
+});
 export interface Auth {
   api_key: string | null;
   email: string | null;
@@ -123,7 +133,7 @@ export interface Auth {
 
 const initialState: Auth = {
   api_key: null,
-  email: null,
+  email: "test@test.com",
   verifiedEmail: false,
   agencyMode: false,
   responseError: null,
@@ -140,9 +150,10 @@ export const authSlice = createSlice({
     resetEmail: (state) => {
       state.email = null;
     },
-    verifyEmail: (state) => {
-      state.verifiedEmail = true;
+    verifyEmail: (state, action: PayloadAction<boolean>) => {
+      state.verifiedEmail = action.payload;
     },
+
     resetEmailVerification: (state) => {
       state.verifiedEmail = false;
     },

@@ -11,7 +11,6 @@ const register = (user: TeammateUser) => {
   });
 };
 
-// to be  implemented
 const login = (loginInputs: LoginInputs) => {
   return axios.post(API_URL + "auth/login", loginInputs).then((response) => {
     if (response.data.api_key) {
@@ -20,6 +19,14 @@ const login = (loginInputs: LoginInputs) => {
 
     return response.data.api_key;
   });
+};
+
+const forgot = (email: string) => {
+  return axios
+    .post(API_URL + "auth/forgot-password", { email })
+    .then((response) => {
+      return response.data.message;
+    });
 };
 
 const logout = () => {
@@ -32,6 +39,7 @@ const authService = {
   register,
   logout,
   login,
+  forgot,
 };
 
 export default authService;

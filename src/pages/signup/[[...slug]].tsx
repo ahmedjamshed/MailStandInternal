@@ -111,9 +111,9 @@ const SignupPage: NextPage = (props) => {
     }
   };
 
-  useEffect(() => {
-    loadUserIfSaved();
-  }, []);
+  // useEffect(() => {
+  //   loadUserIfSaved();
+  // }, []);
   useEffect(() => {
     setInputs({
       ...inputs,
@@ -133,12 +133,11 @@ const SignupPage: NextPage = (props) => {
     if (!error) {
       try {
         await dispatch(signupUser(inputs)).unwrap();
-
         router.push("/verify");
         dispatch(setStatus("idle"));
         dispatch(resetResponseError());
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
   };
